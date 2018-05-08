@@ -34,10 +34,10 @@ public class Main extends Application {
         BorderPane hooldus1 = new BorderPane();
 
         TilePane ostuMenüü = new TilePane();
-
+        ostuMenüü.setPadding(new Insets(40,40,40,40));
         Scene stseen1 = new Scene(piir, 450, 150); // Loome esimese stseeni
         Scene stseen2 = new Scene(piir1, 300, 150); // loome teise stseeni
-        Scene ostustseen1 = new Scene(ostuMenüü, 300, 150);
+        Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
         Scene hooldusestseen1 = new Scene(hooldus1, 300, 150);
         // ______________________________________________________________________________________________
         // ESIMESE STSEENI ALGUS
@@ -119,20 +119,37 @@ public class Main extends Application {
         ArrayList<String> autod = a.autoNimed();
         ArrayList<String> mark = new ArrayList<String>();
         ArrayList<String> hind = new ArrayList<String>();
+        ArrayList<String> png = new ArrayList<String>();
+        ArrayList<String> pngFlip = new ArrayList<String>();
         for (int i = 0; i < autod.size(); i++) {
             String[]tükid = autod.get(i).split(" ");
             mark.add(tükid[0]);
             hind.add(tükid[1]);
+            png.add(tükid[2]);
+            pngFlip.add(tükid[3]);
         }
-        Image imageYes = new Image(getClass().getResourceAsStream("yes.png"));
-        Button volvo1 = new Button(mark.get(0), new ImageView(imageYes));
+        Image imageV40 = new Image(getClass().getResourceAsStream(png.get(0)));
+        Image imageV40flip = new Image(getClass().getResourceAsStream(pngFlip.get(0)));
+        Button volvo1 = new Button(mark.get(0), new ImageView(imageV40));
+        volvo1.setOnMouseEntered(e -> {volvo1.setGraphic(new ImageView(imageV40flip));volvo1.setText(hind.get(0));});
+        volvo1.setOnMouseExited(e -> {volvo1.setGraphic(new ImageView(imageV40));volvo1.setText(mark.get(0));});
 
-        Image imageNo = new Image(getClass().getResourceAsStream("no.png"));
-        Button volvo2 = new Button(mark.get(1), new ImageView(imageNo));
+        Image imageV60 = new Image(getClass().getResourceAsStream(png.get(1)));
+        Image imageV60flip = new Image(getClass().getResourceAsStream(pngFlip.get(1)));
+        Button volvo2 = new Button(mark.get(1), new ImageView(imageV60));
+        volvo2.setOnMouseEntered(e -> {volvo2.setGraphic(new ImageView(imageV60flip));volvo2.setText(hind.get(1));});
+        volvo2.setOnMouseExited(e -> {volvo2.setGraphic(new ImageView(imageV60 ));volvo2.setText(mark.get(1));});
+
+        Image imageXC90= new Image(getClass().getResourceAsStream(png.get(2)));
+        Image imageXC90flip = new Image(getClass().getResourceAsStream(pngFlip.get(2)));
+        Button volvo3 = new Button(mark.get(1), new ImageView(imageV60));
+        volvo3.setOnMouseEntered(e -> {volvo3.setGraphic(new ImageView(imageXC90flip));volvo3.setText(hind.get(2));});
+        volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2));});
 
         ostuMenüü.getChildren().add(volvo1);
         ostuMenüü.getChildren().add(volvo2);
-        ostuMenüü.setTileAlignment(Pos.TOP_LEFT);
+        ostuMenüü.getChildren().add(volvo3);
+        ostuMenüü.setTileAlignment(Pos.TOP_CENTER);
 
 
     // DROPBOX

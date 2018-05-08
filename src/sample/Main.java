@@ -142,7 +142,7 @@ public class Main extends Application {
 
         Image imageXC90= new Image(getClass().getResourceAsStream(png.get(2)));
         Image imageXC90flip = new Image(getClass().getResourceAsStream(pngFlip.get(2)));
-        Button volvo3 = new Button(mark.get(1), new ImageView(imageV60));
+        Button volvo3 = new Button(mark.get(2), new ImageView(imageXC90));
         volvo3.setOnMouseEntered(e -> {volvo3.setGraphic(new ImageView(imageXC90flip));volvo3.setText(hind.get(2));});
         volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2));});
 

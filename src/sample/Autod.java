@@ -3,6 +3,17 @@ import java.io.*;
 import java.util.*;
 
 public class Autod {
+    String mudel;
+    Integer hind;
+    String png;
+    String pngFlip;
+
+    public Autod(String mudel, Integer hind, String png, String pngFlip) {
+        this.mudel = mudel;
+        this.hind = hind;
+        this.png = png;
+        this.pngFlip = pngFlip;
+    }
 
     public static ArrayList<String> autoNimed() throws FileNotFoundException {
         File fail = new File("Autod.txt");

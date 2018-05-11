@@ -5,11 +5,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -28,43 +30,60 @@ public class Main extends Application {
 
         // ÜLDSÄTTED ALGUSES
         window = primaryStage;
-        BorderPane piir = new BorderPane(); // Loome esimesele stseenile nö lõuendi
+        GridPane grid = new GridPane();// Loome esimesele stseenile nö lõuendi
         BorderPane piir1 = new BorderPane(); // loome teisele stseenile nö lõuendi
+        GridPane grid1 = new GridPane();
         BorderPane ost1 = new BorderPane();
         BorderPane hooldus1 = new BorderPane();
 
+
         TilePane ostuMenüü = new TilePane();
         ostuMenüü.setPadding(new Insets(40,40,40,40));
-        Scene stseen1 = new Scene(piir, 450, 150); // Loome esimese stseeni
-        Scene stseen2 = new Scene(piir1, 300, 150); // loome teise stseeni
+        Scene stseen1 = new Scene(grid, 400, 275); // Loome esimese stseeni
+        Scene stseen2 = new Scene(grid1, 400, 275); // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
         Scene hooldusestseen1 = new Scene(hooldus1, 300, 150);
         // ______________________________________________________________________________________________
         // ESIMESE STSEENI ALGUS
-        Text nimi = new Text("Tere! \n Olete sisenenud volvo e-teenindusse!"); // Tekst esimeses stseenis
-        TextField field = new TextField("Sisetage oma ees- ja perekonnanimi"); // Nime sisestamiseks aken
-        field.setMinWidth(100); // Anname suuruse aknale
-        field.setPrefWidth(150);
-        field.setMaxWidth(300);
 
-        Button edasi1 = new Button("Edasi"); // loome "edasi" nupu
-        Button turnoff = new Button("välju"); // loome programmist väljumise nupu
-        piir.setTop(nimi); // Paneme TOPi teksti
-        piir.setCenter(field); // Paneme keskele akna nime sisestamiseks
-        piir.setLeft(turnoff); // Vasakule paneme turnoffi
-        piir.setRight(edasi1); // paneme paremale järgmisesse stseeni minemise nupu
-        BorderPane.setAlignment(edasi1, Pos.BOTTOM_RIGHT); // Edasi1 nupp läheb alla paremale (täpsustus)
-        BorderPane.setAlignment(turnoff, Pos.BOTTOM_LEFT); // turnoff läheb alla vasakule
-        BorderPane.setAlignment(nimi, Pos.TOP_CENTER); // tekst läheb üles keskele
-        BorderPane.setAlignment(field, Pos.CENTER); // aken nime sisestamiseks läheb keskele
-        BorderPane.setMargin(turnoff, new Insets(12, 0, 12, 25)); // väike kohendus turnoffi jaoks PÄRAST PEAB ÄRA MUUTMA
-        BorderPane.setMargin(edasi1, new Insets(12, 25, 12, 0)); // sama ka edasi1 nupuga  PÄRAST PEAB ÄRA MUUTMA
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+
+        Text scenetitle = new Text("Teretulemast volvo e-teenindusse!");
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        grid.add(scenetitle, 0, 0, 2, 1);
+
+        Text tutvustus = new Text("Sisestage ees- ja perekonnanimi.");
+        grid.add(tutvustus,1,1,1,1);
+
+        Label userName = new Label("Eesnimi:");
+        grid.add(userName, 0, 2);
+
+        TextField eesnimi = new TextField();
+        grid.add(eesnimi, 1, 2);
+
+        Label pw = new Label("Perenimi");
+        grid.add(pw, 0, 3);
+
+        TextField perenimi = new TextField();
+        grid.add(perenimi, 1, 3);
+
+        Button edasi = new Button("Edasi");
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(edasi);
+        grid.add(hbBtn, 1, 5);
+
+        Button turnoff = new Button("Välju");
+        grid.add(turnoff,0,5,1,1);
 
 
         turnoff.setOnMouseClicked(event -> System.exit(1)); // Kui klikkida turnoff nupule siis sys.exit
-        edasi1.setOnMouseClicked(event -> {
-            täisnimi = field.getText();
-            System.out.println(field.getText());
+        edasi.setOnMouseClicked(event -> {
+            täisnimi = eesnimi.getText();
+            System.out.println(eesnimi.getText());
             window.setScene(stseen2);
         }); // Kui klikkida edasi nupule siis läheb next stseeni
         // ESIMESE STSEENI LÕPP!
@@ -72,25 +91,31 @@ public class Main extends Application {
 
 
         // TEISE STSEENI ALGUS
-
+        grid1.setAlignment(Pos.CENTER);
+        grid1.setHgap(10);
+        grid1.setVgap(10);
+        grid1.setPadding(new Insets(25, 25, 25, 25));
         Text esimene = new Text("Kas ost või hooldus?"); // LOome sõnumi selle stseeni jaoks
         Button button2 = new Button("tagasi");// Loome nupu tagasi minekuks
         Button ost = new Button("Ost"); // loome nupu ostudesse minekuks
         Button hooldus = new Button("hooldus"); // loome nupu hooldusesse minekuks
-        piir1.setCenter(button2);// Paneme selle nupu keskele
-        piir1.setTop(esimene);
-        piir1.setLeft(ost);
-        piir1.setRight(hooldus);
-        BorderPane.setAlignment(esimene, Pos.CENTER);
-        BorderPane.setAlignment(button2, Pos.CENTER); // paneme selle nupu keskele
-        BorderPane.setAlignment(ost, Pos.CENTER_LEFT);
-        BorderPane.setAlignment(hooldus, Pos.CENTER_RIGHT);
+        grid1.add(esimene, 2,0,1,1);
+        grid1.add(button2,0,4,1,1);
+        grid1.add(ost,1,2,1,1);
+        grid1.add(hooldus,3,2,1,1);
+
+        // EI TÖÖTA VEEL
+        Image image = new Image ("http://www.carlogos.org/logo/Volvo-logo-2014-1920x1080.png");
+        grid1.setBackground(new Background(new BackgroundImage(image,BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT)));
+
         button2.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
         ost.setOnMouseClicked(e -> {
-            Autod a = new Autod();
             try {
 
-                ArrayList<String> autod = a.autoNimed();
+                ArrayList<String> autod = Autod.autoNimed();
                 ArrayList<String> slotid = new ArrayList<String>();
                 for (int i = 0; i < autod.size(); i++) {
                     slotid.add("image" + i);
@@ -115,8 +140,7 @@ public class Main extends Application {
 
         Text ostTutvustus = new Text("Teie ees on müügilolevad autod: ");
 
-        Autod a = new Autod();
-        ArrayList<String> autod = a.autoNimed();
+        ArrayList<String> autod = Autod.autoNimed();
         ArrayList<String> mark = new ArrayList<String>();
         ArrayList<String> hind = new ArrayList<String>();
         ArrayList<String> png = new ArrayList<String>();
@@ -128,6 +152,7 @@ public class Main extends Application {
             png.add(tükid[2]);
             pngFlip.add(tükid[3]);
         }
+
         Image imageV40 = new Image(getClass().getResourceAsStream(png.get(0)));
         Image imageV40flip = new Image(getClass().getResourceAsStream(pngFlip.get(0)));
         Button volvo1 = new Button(mark.get(0), new ImageView(imageV40));
@@ -146,10 +171,16 @@ public class Main extends Application {
         volvo3.setOnMouseEntered(e -> {volvo3.setGraphic(new ImageView(imageXC90flip));volvo3.setText(hind.get(2));});
         volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2));});
 
+        Button jah = new Button("Jah");
+
+
         ostuMenüü.getChildren().add(volvo1);
         ostuMenüü.getChildren().add(volvo2);
         ostuMenüü.getChildren().add(volvo3);
-        ostuMenüü.setTileAlignment(Pos.TOP_CENTER);
+        ostuMenüü.setPadding(new Insets(20,20,20,20));
+        ostuMenüü.setHgap(20);
+        ostuMenüü.setVgap(20);
+        ostuMenüü.setTileAlignment(Pos.BOTTOM_CENTER);
 
 
     // DROPBOX

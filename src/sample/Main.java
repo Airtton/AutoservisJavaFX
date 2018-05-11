@@ -1,11 +1,14 @@
 package sample;
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +16,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -58,16 +62,16 @@ public class Main extends Application {
         Text tutvustus = new Text("Sisestage ees- ja perekonnanimi.");
         grid.add(tutvustus,1,1,1,1);
 
-        Label userName = new Label("Eesnimi:");
-        grid.add(userName, 0, 2);
+        Label forName = new Label("Eesnimi:");
+        grid.add(forName, 0, 2);
 
-        TextField eesnimi = new TextField();
+        TextField eesnimi = new TextField("eesnimi");
         grid.add(eesnimi, 1, 2);
 
-        Label pw = new Label("Perenimi");
-        grid.add(pw, 0, 3);
+        Label surname = new Label("Perenimi");
+        grid.add(surname, 0, 3);
 
-        TextField perenimi = new TextField();
+        TextField perenimi = new TextField("perenimi");
         grid.add(perenimi, 1, 3);
 
         Button edasi = new Button("Edasi");
@@ -82,10 +86,12 @@ public class Main extends Application {
 
         turnoff.setOnMouseClicked(event -> System.exit(1)); // Kui klikkida turnoff nupule siis sys.exit
         edasi.setOnMouseClicked(event -> {
-            täisnimi = eesnimi.getText();
+
             System.out.println(eesnimi.getText());
             window.setScene(stseen2);
-        }); // Kui klikkida edasi nupule siis läheb next stseeni
+        });
+        täisnimi = eesnimi.getText() + " " + perenimi.getText();
+        // Kui klikkida edasi nupule siis läheb next stseeni
         // ESIMESE STSEENI LÕPP!
         //_______________________________________________________________________________________________________________________________________________
 
@@ -95,23 +101,52 @@ public class Main extends Application {
         grid1.setHgap(10);
         grid1.setVgap(10);
         grid1.setPadding(new Insets(25, 25, 25, 25));
-        Text esimene = new Text("Kas ost või hooldus?"); // LOome sõnumi selle stseeni jaoks
-        Button button2 = new Button("tagasi");// Loome nupu tagasi minekuks
-        Button ost = new Button("Ost"); // loome nupu ostudesse minekuks
-        Button hooldus = new Button("hooldus"); // loome nupu hooldusesse minekuks
-        grid1.add(esimene, 2,0,1,1);
-        grid1.add(button2,0,4,1,1);
-        grid1.add(ost,1,2,1,1);
-        grid1.add(hooldus,3,2,1,1);
 
-        // EI TÖÖTA VEEL
-        Image image = new Image ("http://www.carlogos.org/logo/Volvo-logo-2014-1920x1080.png");
-        grid1.setBackground(new Background(new BackgroundImage(image,BackgroundRepeat.REPEAT,
-                BackgroundRepeat.REPEAT,
+        Label labelTitle = new Label("Kas ost või hooldus?");
+        labelTitle.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
+        Image logo = new Image(getClass().getResourceAsStream("logo275.png"));
+
+        Label tühik = new Label("Klient: "+ täisnimi);
+        tühik.setFont(Font.font("Tahoma",FontWeight.BOLD,10));
+        GridPane.setHalignment(tühik,HPos.CENTER);
+
+        Label tühi = new Label("");
+        grid1.add(tühik,0,1,2,1);
+        grid1.add(tühi,0,4,2,1);
+        //grid1.add(tühik,0,3,2,1);
+
+        // Put on cell (0,0), span 2 column, 1 row.
+        grid1.add(labelTitle, 0, 0, 2, 1);
+
+
+        Button ost = new Button("  Ost  ");
+
+        Button hooldus = new Button("Hooldus");
+
+
+        Button back = new Button("tagasi");
+
+        GridPane.setHalignment(ost, HPos.CENTER);
+
+        // Put on cell (0,1)
+        grid1.add(ost, 0, 2,2,1);
+
+
+        GridPane.setHalignment(hooldus, HPos.CENTER);
+        grid1.add(hooldus, 0, 3,2,1);
+
+
+        // Horizontal alignment for Login button.
+        GridPane.setHalignment(back, HPos.CENTER);
+        grid1.add(back, 0, 5,2,2);
+
+        // TÖÖTAB, AGA ON LIIGA SUR!
+        grid1.setBackground(new Background(new BackgroundImage(logo,BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
 
-        button2.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+       back.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
         ost.setOnMouseClicked(e -> {
             try {
 

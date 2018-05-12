@@ -22,8 +22,12 @@ public class Main extends Application {
     private Stage window;
     private Text kliendiNimi = new Text();
     private Text kas = new Text("Kas tõesti soovid osta seda autot?");
+
     private Label valitudAuto = new Label();
     private String millineAuto;
+    private String nimekiri;
+
+
     ArrayList<String> ostuKorv = new ArrayList<>();
 
     private void misAuto(String auto){
@@ -33,7 +37,14 @@ public class Main extends Application {
     private void misNimi(String nimi){
         kliendiNimi.setText("Klient: "+ nimi);
     }
+    private String nimeKiri(ArrayList<String> aaa){
 
+        for (int i = 0; i < aaa.size(); i++) {
+            nimekiri += aaa.get(i) +"\n" ;
+        }
+        return nimekiri;
+    }
+    Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -118,8 +129,7 @@ public class Main extends Application {
         GridPane.setHalignment(kliendiNimi,HPos.CENTER);
 
         Label tühi = new Label("");
-        grid1.add(kliendiNimi,0,1,2,1);
-        grid1.add(tühi,0,4,2,1);
+
 
 
 
@@ -131,15 +141,19 @@ public class Main extends Application {
 
         GridPane.setHalignment(ost, HPos.CENTER);
         GridPane.setHalignment(hooldus, HPos.CENTER);
-        grid1.add(labelTitle, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
-        grid1.add(ost, 0, 1,2,1);// Put on cell (0,1)
-        grid1.add(hooldus, 0, 2,2,1);
-        grid1.add(ostukorv,0,3,2,1);
-
-
-        // Horizontal alignment for Login button.
         GridPane.setHalignment(back, HPos.CENTER);
-        grid1.add(back, 0, 5,2,2);
+        GridPane.setHalignment(ostukorv,HPos.CENTER);
+
+        grid1.add(labelTitle, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
+        grid1.add(kliendiNimi,0,1,2,1);
+        grid1.add(ost, 0, 2,2,1);// Put on cell (0,1)
+        grid1.add(hooldus, 0, 3,2,1);
+        grid1.add(ostukorv,0,4,2,1);
+        grid1.add(tühi,0,5,2,1);
+
+
+
+        grid1.add(back, 0, 6,2,2);
 
         // LOGO PAREMAS VASAKUS NURGAS (VÄIKE)
         grid1.setBackground(new Background(new BackgroundImage(logo,BackgroundRepeat.NO_REPEAT,
@@ -148,6 +162,7 @@ public class Main extends Application {
                 BackgroundSize.DEFAULT)));
 
         back.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+        ostukorv.setOnMouseClicked(e -> window.setScene(ostuKorviStseen));
         ost.setOnMouseClicked(e -> {
             try {
                 ArrayList<String> autod = Autod.autoNimed();
@@ -239,9 +254,20 @@ public class Main extends Application {
         soovidOsta.add(b_jah,0,2,1,1);
         soovidOsta.add(b_ei,3,2,1,1);
 
+ // __________________________________________________________________________________________________________________________
+    // OSTUKORVI STSEEN ALGAB
+        ostuKorvgrid.setAlignment(Pos.CENTER);
+        ostuKorvgrid.setHgap(10);
+        ostuKorvgrid.setVgap(10);
+        ostuKorvgrid.setPadding(new Insets(25, 25, 25, 25));
 
+        Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
 
-        //´KAS SOOVID NÜÜD TSEKKI SAADA.
+        ostuKorvgrid.add(ostukorviElemendid,0,2,3,3);
+        ostuKorvgrid.add(siinolevad,0,0,1,3);
+
+        // OSTUKORVI STSEEEN LÕPPEB
+// __________________________________________________________________________________________________________________________
         window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen
         window.show();  // lava tehakse nähtavaks

@@ -25,7 +25,7 @@ public class Main extends Application {
 
     private Label valitudAuto = new Label();
     private String millineAuto;
-    private String nimekiri;
+    private String nimekiri = "";
 
 
     ArrayList<String> ostuKorv = new ArrayList<>();
@@ -37,14 +37,17 @@ public class Main extends Application {
     private void misNimi(String nimi){
         kliendiNimi.setText("Klient: "+ nimi);
     }
+
     private String nimeKiri(ArrayList<String> aaa){
 
         for (int i = 0; i < aaa.size(); i++) {
-            nimekiri += aaa.get(i) +"\n" ;
+            nimekiri += aaa.get(i) + "\n" ;
+
         }
         return nimekiri;
     }
-    Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
+    //Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -85,17 +88,17 @@ public class Main extends Application {
         Label forName = new Label("Eesnimi:");
         grid.add(forName, 0, 2);
 
-        TextField eesnimi = new TextField("eesnimi");
+        TextField eesnimi = new TextField("Eesnimi");
         grid.add(eesnimi, 1, 2);
 
-        Label surname = new Label("Perenimi");
+        Label surname = new Label("Perenimi:");
         grid.add(surname, 0, 3);
 
         TextField perenimi = new TextField("Perenimi");
         grid.add(perenimi, 1, 3);
 
         Button edasi = new Button("Edasi");
-        HBox hbBtn = new HBox(10);
+        HBox hbBtn = new HBox(10);                                      // ala nupu jaoks, loon calumnisse spets ala n.ö vundamendi
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(edasi);
         grid.add(hbBtn, 1, 5);
@@ -104,7 +107,7 @@ public class Main extends Application {
         grid.add(turnoff,0,5,1,1);
 
 
-        turnoff.setOnMouseClicked(event -> System.exit(1)); // Kui klikkida turnoff nupule siis sys.exit
+        turnoff.setOnMouseClicked(event -> System.exit(1));            // Kui klikkida turnoff nupule siis sys.exit
         edasi.setOnMousePressed(event -> {
             misNimi(eesnimi.getText() + " " + perenimi.getText());
             window.setScene(stseen2);
@@ -155,13 +158,13 @@ public class Main extends Application {
 
         grid1.add(back, 0, 6,2,2);
 
-        // LOGO PAREMAS VASAKUS NURGAS (VÄIKE)
+        // LOGO PAREMAS ülemises (VÄIKE)
         grid1.setBackground(new Background(new BackgroundImage(logo,BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
 
-        back.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+        back.setOnMouseClicked(e -> window.setScene(stseen1));                     // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
         ostukorv.setOnMouseClicked(e -> window.setScene(ostuKorviStseen));
         ost.setOnMouseClicked(e -> {
             try {
@@ -208,7 +211,7 @@ public class Main extends Application {
         Button volvo1 = new Button(mark.get(0), new ImageView(imageV40));
         volvo1.setOnMouseEntered(e -> {volvo1.setGraphic(new ImageView(imageV40flip));volvo1.setText(hind.get(0));});
         volvo1.setOnMouseExited(e -> {volvo1.setGraphic(new ImageView(imageV40));volvo1.setText(mark.get(0));});
-        volvo1.setOnMousePressed( e -> {misAuto(mark.get(0) + " "+ hind.get(0));window.setScene(soovOstastseen); });
+        volvo1.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(0) + "  Hind: "+ hind.get(0));window.setScene(soovOstastseen); });
 
 
         Image imageV60 = new Image(getClass().getResourceAsStream(png.get(1)));
@@ -216,15 +219,16 @@ public class Main extends Application {
         Button volvo2 = new Button(mark.get(1), new ImageView(imageV60));
         volvo2.setOnMouseEntered(e -> {volvo2.setGraphic(new ImageView(imageV60flip));volvo2.setText(hind.get(1));});
         volvo2.setOnMouseExited(e -> {volvo2.setGraphic(new ImageView(imageV60 ));volvo2.setText(mark.get(1));});
-        volvo1.setOnMousePressed( e -> {misAuto(mark.get(1) + " " + hind.get(1));window.setScene(soovOstastseen);});
+        volvo2.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(1) + "  Hind: " + hind.get(1));window.setScene(soovOstastseen);});
 
         Image imageXC90= new Image(getClass().getResourceAsStream(png.get(2)));
         Image imageXC90flip = new Image(getClass().getResourceAsStream(pngFlip.get(2)));
         Button volvo3 = new Button(mark.get(2), new ImageView(imageXC90));
         volvo3.setOnMouseEntered(e -> {volvo3.setGraphic(new ImageView(imageXC90flip));volvo3.setText(hind.get(2));});
         volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2));});
-        volvo3.setOnMousePressed( e -> {misAuto(mark.get(2) + " " + hind.get(2));window.setScene(soovOstastseen);});
+        volvo3.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(2) + "  Hind: " + hind.get(2));window.setScene(soovOstastseen);});
 
+        ostuMenüü.add(ostTutvustus, 1,0,1, 1);
         ostuMenüü.add(volvo1,0,1,1,1);
         ostuMenüü.add(volvo2,1,1,1,1);
         ostuMenüü.add(volvo3,2,1,1,1);
@@ -242,7 +246,7 @@ public class Main extends Application {
 
 
 
-        Button b_jah = new Button("jah");
+        Button b_jah = new Button("Jah");
         Button b_ei = new Button ("Ei");
 
         b_jah.setOnMousePressed(e -> {ostuKorv.add(millineAuto); window.setScene(stseen2);} );
@@ -251,8 +255,8 @@ public class Main extends Application {
 
         soovidOsta.add(kas,0,0,3,1);
         soovidOsta.add(valitudAuto,0,1,3,1);
-        soovidOsta.add(b_jah,0,2,1,1);
-        soovidOsta.add(b_ei,3,2,1,1);
+        soovidOsta.add(b_jah,3,2,1,1);
+        soovidOsta.add(b_ei,0,2,1,1);
 
  // __________________________________________________________________________________________________________________________
     // OSTUKORVI STSEEN ALGAB
@@ -263,7 +267,9 @@ public class Main extends Application {
 
         Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
 
-        ostuKorvgrid.add(ostukorviElemendid,0,2,3,3);
+        Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
+
+        ostuKorvgrid.add(ostukorviElemendid,0,1,3,3);
         ostuKorvgrid.add(siinolevad,0,0,1,3);
 
         // OSTUKORVI STSEEEN LÕPPEB

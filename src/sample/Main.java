@@ -274,6 +274,12 @@ public class Main extends Application {
 
         // OSTUKORVI STSEEEN LÕPPEB
 // __________________________________________________________________________________________________________________________
+       // HOOLDUSESTSEENI ALGUS
+
+
+
+
+       //__________________________________________________________________________________________________________________
         window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen
         window.show();  // lava tehakse nähtavaks

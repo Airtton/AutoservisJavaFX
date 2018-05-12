@@ -3,12 +3,9 @@ import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Scene;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,9 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -26,7 +21,11 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     Stage window;
-    private String täisnimi;
+    String täisnimi;
+    String valitudAuto;
+    Text kas = new Text();
+    ArrayList<String> ostuKorv = new ArrayList<>();
+
 
 
     @Override
@@ -35,17 +34,15 @@ public class Main extends Application {
         // ÜLDSÄTTED ALGUSES
         window = primaryStage;
         GridPane grid = new GridPane();// Loome esimesele stseenile nö lõuendi
-        BorderPane piir1 = new BorderPane(); // loome teisele stseenile nö lõuendi
-        GridPane grid1 = new GridPane();
-        BorderPane ost1 = new BorderPane();
+        GridPane grid1 = new GridPane();// loome teisele stseenile nö lõuendi
         BorderPane hooldus1 = new BorderPane();
+        GridPane ostuMenüü = new GridPane();
+        GridPane soovidOsta = new GridPane();
 
-
-        TilePane ostuMenüü = new TilePane();
-        ostuMenüü.setPadding(new Insets(40,40,40,40));
         Scene stseen1 = new Scene(grid, 400, 275); // Loome esimese stseeni
         Scene stseen2 = new Scene(grid1, 400, 275); // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
+        Scene soovOstastseen = new Scene(soovidOsta,400,275);
         Scene hooldusestseen1 = new Scene(hooldus1, 300, 150);
         // ______________________________________________________________________________________________
         // ESIMESE STSEENI ALGUS
@@ -71,7 +68,7 @@ public class Main extends Application {
         Label surname = new Label("Perenimi");
         grid.add(surname, 0, 3);
 
-        TextField perenimi = new TextField("perenimi");
+        TextField perenimi = new TextField("Perenimi");
         grid.add(perenimi, 1, 3);
 
         Button edasi = new Button("Edasi");
@@ -86,11 +83,10 @@ public class Main extends Application {
 
         turnoff.setOnMouseClicked(event -> System.exit(1)); // Kui klikkida turnoff nupule siis sys.exit
         edasi.setOnMouseClicked(event -> {
-
-            System.out.println(eesnimi.getText());
+            täisnimi = eesnimi.getText() + " " + perenimi.getText();
+            System.out.println(täisnimi);
             window.setScene(stseen2);
         });
-        täisnimi = eesnimi.getText() + " " + perenimi.getText();
         // Kui klikkida edasi nupule siis läheb next stseeni
         // ESIMESE STSEENI LÕPP!
         //_______________________________________________________________________________________________________________________________________________
@@ -106,14 +102,14 @@ public class Main extends Application {
         labelTitle.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
         Image logo = new Image(getClass().getResourceAsStream("logo275.png"));
 
-        Label tühik = new Label("Klient: "+ täisnimi);
+        Text tühik = new Text("Klient: "+ täisnimi);
         tühik.setFont(Font.font("Tahoma",FontWeight.BOLD,10));
         GridPane.setHalignment(tühik,HPos.CENTER);
 
         Label tühi = new Label("");
         grid1.add(tühik,0,1,2,1);
         grid1.add(tühi,0,4,2,1);
-        //grid1.add(tühik,0,3,2,1);
+
 
         // Put on cell (0,0), span 2 column, 1 row.
         grid1.add(labelTitle, 0, 0, 2, 1);
@@ -140,7 +136,7 @@ public class Main extends Application {
         GridPane.setHalignment(back, HPos.CENTER);
         grid1.add(back, 0, 5,2,2);
 
-        // TÖÖTAB, AGA ON LIIGA SUR!
+        // LOGO PAREMAS VASAKUS NURGAS (VÄIKE)
         grid1.setBackground(new Background(new BackgroundImage(logo,BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
@@ -149,7 +145,6 @@ public class Main extends Application {
        back.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
         ost.setOnMouseClicked(e -> {
             try {
-
                 ArrayList<String> autod = Autod.autoNimed();
                 ArrayList<String> slotid = new ArrayList<String>();
                 for (int i = 0; i < autod.size(); i++) {
@@ -173,6 +168,11 @@ public class Main extends Application {
 
         // OSTUSTSEENI ALGUS
 
+        ostuMenüü.setAlignment(Pos.CENTER);
+        ostuMenüü.setHgap(10);
+        ostuMenüü.setVgap(10);
+        ostuMenüü.setPadding(new Insets(25, 25, 25, 25));
+
         Text ostTutvustus = new Text("Teie ees on müügilolevad autod: ");
 
         ArrayList<String> autod = Autod.autoNimed();
@@ -193,32 +193,53 @@ public class Main extends Application {
         Button volvo1 = new Button(mark.get(0), new ImageView(imageV40));
         volvo1.setOnMouseEntered(e -> {volvo1.setGraphic(new ImageView(imageV40flip));volvo1.setText(hind.get(0));});
         volvo1.setOnMouseExited(e -> {volvo1.setGraphic(new ImageView(imageV40));volvo1.setText(mark.get(0));});
+        volvo1.setOnMouseClicked( e -> {window.setScene(soovOstastseen);
+        valitudAuto = mark.get(0) + " " + hind.get(0);
+        kas.setText(mark.get(0) + " " + hind.get(0));
+        });
+
 
         Image imageV60 = new Image(getClass().getResourceAsStream(png.get(1)));
         Image imageV60flip = new Image(getClass().getResourceAsStream(pngFlip.get(1)));
         Button volvo2 = new Button(mark.get(1), new ImageView(imageV60));
         volvo2.setOnMouseEntered(e -> {volvo2.setGraphic(new ImageView(imageV60flip));volvo2.setText(hind.get(1));});
         volvo2.setOnMouseExited(e -> {volvo2.setGraphic(new ImageView(imageV60 ));volvo2.setText(mark.get(1));});
+        volvo1.setOnMouseClicked( e -> {window.setScene(soovOstastseen);});
 
         Image imageXC90= new Image(getClass().getResourceAsStream(png.get(2)));
         Image imageXC90flip = new Image(getClass().getResourceAsStream(pngFlip.get(2)));
         Button volvo3 = new Button(mark.get(2), new ImageView(imageXC90));
         volvo3.setOnMouseEntered(e -> {volvo3.setGraphic(new ImageView(imageXC90flip));volvo3.setText(hind.get(2));});
         volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2));});
+        volvo3.setOnMouseClicked( e -> {window.setScene(soovOstastseen);});
+
+        ostuMenüü.add(volvo1,0,1,1,1);
+        ostuMenüü.add(volvo2,1,1,1,1);
+        ostuMenüü.add(volvo3,2,1,1,1);
 
         Button jah = new Button("Jah");
 
-
-        ostuMenüü.getChildren().add(volvo1);
-        ostuMenüü.getChildren().add(volvo2);
-        ostuMenüü.getChildren().add(volvo3);
-        ostuMenüü.setPadding(new Insets(20,20,20,20));
-        ostuMenüü.setHgap(20);
-        ostuMenüü.setVgap(20);
-        ostuMenüü.setTileAlignment(Pos.BOTTOM_CENTER);
-
-
     // DROPBOX
+        // OSTUSTSEENI LÕPP
+        //____________________________________________________________________________________________________________________
+        // STSEEN, MIS KÜSIB, KAS SOOVID OSTA SEDA AUTOT!
+        soovidOsta.setAlignment(Pos.CENTER);
+        soovidOsta.setHgap(10);
+        soovidOsta.setVgap(10);
+        soovidOsta.setPadding(new Insets(25, 25, 25, 25));
+
+
+
+        Button b_jah = new Button("jah");
+        Button b_ei = new Button ("Ei");
+
+        soovidOsta.add(kas,0,0,3,1);
+        soovidOsta.add(b_jah,0,2,1,1);
+        soovidOsta.add(b_ei,3,2,1,1);
+
+
+
+
 
 
 

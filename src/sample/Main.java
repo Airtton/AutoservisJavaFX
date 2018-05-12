@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +16,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main extends Application {
 
@@ -26,10 +30,14 @@ public class Main extends Application {
     private Label valitudAuto = new Label();
     private String millineAuto;
     private String nimekiri = "";
+    private String[] tükid;
+    private ArrayList<Integer> summa = new ArrayList<>();
+    private int hind;
+    private int intMuutuja;
 
 
     ArrayList<String> ostuKorv = new ArrayList<>();
-
+    Random rand = new Random();
     private void misAuto(String auto){
         valitudAuto.setText(auto);
         millineAuto = valitudAuto.getText();
@@ -41,12 +49,12 @@ public class Main extends Application {
     private String nimeKiri(ArrayList<String> aaa){
 
         for (int i = 0; i < aaa.size(); i++) {
-            nimekiri += aaa.get(i) + "\n" ;
+
 
         }
         return nimekiri;
     }
-    //Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
+    ListView<String> testime = new ListView<>();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -58,15 +66,15 @@ public class Main extends Application {
         BorderPane hooldus1 = new BorderPane();
         GridPane ostuMenüü = new GridPane();
         GridPane soovidOsta = new GridPane();
-        GridPane tsekk = new GridPane();
         GridPane ostuKorvgrid = new GridPane();
+        BorderPane errorBorder = new BorderPane();
 
         Scene stseen1 = new Scene(grid, 400, 275); // Loome esimese stseeni
         Scene stseen2 = new Scene(grid1, 400, 275); // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
         Scene soovOstastseen = new Scene(soovidOsta,400,275);
         Scene hooldusestseen1 = new Scene(hooldus1, 300, 150);
-        Scene tsekiStseen = new Scene(tsekk,500,500);
+        Scene errorStseen = new Scene(errorBorder,350,200);
         Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500);
 
 
@@ -109,14 +117,36 @@ public class Main extends Application {
 
         turnoff.setOnMouseClicked(event -> System.exit(1));            // Kui klikkida turnoff nupule siis sys.exit
         edasi.setOnMousePressed(event -> {
+            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi")){
+                window.setScene(errorStseen);
+            }
+            else{
             misNimi(eesnimi.getText() + " " + perenimi.getText());
             window.setScene(stseen2);
-        });
+        }});
+
         // Kui klikkida edasi nupule siis läheb next stseeni
         // ESIMESE STSEENI LÕPP!
-        //_______________________________________________________________________________________________________________________________________________
+// _______________________________________________________________________________________________________________________________________________
+        //ERROR STSEEN
+        errorBorder.setPadding(new Insets(15, 20, 10, 10));
 
 
+        Label valeNimi = new Label("Palun sisesta oma ees- ja perekonnanimi korrektselt!");
+        valeNimi.setPadding(new Insets(10,10,10,10));
+        valeNimi.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,10));
+
+        Button tagasi1 = new Button("Tagasi");
+        tagasi1.setPadding(new Insets(10, 10, 10, 10));
+
+        tagasi1.setOnMouseClicked(e -> window.setScene(stseen1));
+
+        errorBorder.setCenter(tagasi1);
+        errorBorder.setTop(valeNimi);
+
+
+        // ERROR STSEENI LÕPP
+//_______________________________________________________________________________________________________________________________________________
         // TEISE STSEENI ALGUS
         grid1.setAlignment(Pos.CENTER);
         grid1.setHgap(10);
@@ -165,7 +195,28 @@ public class Main extends Application {
                 BackgroundSize.DEFAULT)));
 
         back.setOnMouseClicked(e -> window.setScene(stseen1));                     // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
-        ostukorv.setOnMouseClicked(e -> window.setScene(ostuKorviStseen));
+        ostukorv.setOnMouseClicked(e -> {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    int  n = rand.nextInt(5000) + 1000;
+                    testime.getItems().add("Arve №" + n);
+                    testime.getItems().add("Arve koostati: " + dtf.format(now));
+                    testime.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());
+                    testime.getItems().add(" ");
+            for (int i = 0; i < ostuKorv.size() ; i++) {
+            testime.getItems().add(ostuKorv.get(i));
+            tükid = ostuKorv.get(i).split(" ");
+            hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
+                System.out.println(hind);
+            summa.add(hind);}
+                    for (int i = 0; i < summa.size(); i++) {
+                        intMuutuja += summa.get(i);
+                    }
+            testime.getItems().add(" ");
+            testime.getItems().add("Kokku: " + intMuutuja +"€");
+             window.setScene(ostuKorviStseen);}
+             );
+
         ost.setOnMouseClicked(e -> {
             try {
                 ArrayList<String> autod = Autod.autoNimed();
@@ -264,15 +315,28 @@ public class Main extends Application {
         ostuKorvgrid.setHgap(10);
         ostuKorvgrid.setVgap(10);
         ostuKorvgrid.setPadding(new Insets(25, 25, 25, 25));
-
+        Button maksa = new Button("Maksa ära");
+        Button tagasi = new Button("Tagasi");
+        tagasi.setOnMouseClicked(e -> window.setScene(stseen2));
         Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
 
-        Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
 
-        ostuKorvgrid.add(ostukorviElemendid,0,1,3,3);
+        Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
+        HBox hbox = new HBox(testime);
         ostuKorvgrid.add(siinolevad,0,0,1,3);
+        ostuKorvgrid.add(tühi,0,1,1,1);
+        ostuKorvgrid.add(maksa,4,2,1,1);
+        ostuKorvgrid.add(hbox,0,2,2,2);
+        ostuKorvgrid.add(tagasi,4,4,1,1);
+
 
         // OSTUKORVI STSEEEN LÕPPEB
+// __________________________________________________________________________________________________________________________
+        // MAKSA ÄRA STSEEN!!!
+
+        // SIIN TA VÕIKS TÄNADA OSTU EEST!
+
+        //maksa ära STSEEN LÕPPEB
 // __________________________________________________________________________________________________________________________
        // HOOLDUSESTSEENI ALGUS
 

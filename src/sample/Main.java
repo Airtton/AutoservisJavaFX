@@ -17,9 +17,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-
 public class Main extends Application {
-
 
     private Stage window;
     private Text kliendiNimi = new Text();
@@ -47,6 +45,7 @@ public class Main extends Application {
         GridPane ostuMenüü = new GridPane();
         GridPane soovidOsta = new GridPane();
         GridPane tsekk = new GridPane();
+        GridPane ostuKorvgrid = new GridPane();
 
         Scene stseen1 = new Scene(grid, 400, 275); // Loome esimese stseeni
         Scene stseen2 = new Scene(grid1, 400, 275); // loome teise stseeni
@@ -54,6 +53,7 @@ public class Main extends Application {
         Scene soovOstastseen = new Scene(soovidOsta,400,275);
         Scene hooldusestseen1 = new Scene(hooldus1, 300, 150);
         Scene tsekiStseen = new Scene(tsekk,500,500);
+        Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500);
 
 
         // ______________________________________________________________________________________________
@@ -123,20 +123,18 @@ public class Main extends Application {
 
 
 
-        grid1.add(labelTitle, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
-
 
         Button ost = new Button("  Ost  ");
         Button hooldus = new Button("Hooldus");
+        Button ostukorv = new Button("Ostukorv");
         Button back = new Button("tagasi");
 
         GridPane.setHalignment(ost, HPos.CENTER);
-
-        grid1.add(ost, 0, 2,2,1);// Put on cell (0,1)
-
-
         GridPane.setHalignment(hooldus, HPos.CENTER);
-        grid1.add(hooldus, 0, 3,2,1);
+        grid1.add(labelTitle, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
+        grid1.add(ost, 0, 1,2,1);// Put on cell (0,1)
+        grid1.add(hooldus, 0, 2,2,1);
+        grid1.add(ostukorv,0,3,2,1);
 
 
         // Horizontal alignment for Login button.
@@ -149,15 +147,11 @@ public class Main extends Application {
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
 
-       back.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+        back.setOnMouseClicked(e -> window.setScene(stseen1)); // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
         ost.setOnMouseClicked(e -> {
             try {
                 ArrayList<String> autod = Autod.autoNimed();
-                ArrayList<String> slotid = new ArrayList<String>();
-                for (int i = 0; i < autod.size(); i++) {
-                    slotid.add("image" + i);
-                    System.out.println(autod.get(i));
-                }
+
 
             } catch (FileNotFoundException e1) {
 
@@ -168,7 +162,6 @@ public class Main extends Application {
             window.setScene(ostustseen1);
         });
         hooldus.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
-
 
         // TEISE STSEENI LÕPP!
         //_______________________________________________________________________________________________________________________________________________
@@ -200,8 +193,7 @@ public class Main extends Application {
         Button volvo1 = new Button(mark.get(0), new ImageView(imageV40));
         volvo1.setOnMouseEntered(e -> {volvo1.setGraphic(new ImageView(imageV40flip));volvo1.setText(hind.get(0));});
         volvo1.setOnMouseExited(e -> {volvo1.setGraphic(new ImageView(imageV40));volvo1.setText(mark.get(0));});
-        volvo1.setOnMousePressed( e -> {misAuto(mark.get(0) + " "+ hind.get(0));window.setScene(soovOstastseen);
-             });
+        volvo1.setOnMousePressed( e -> {misAuto(mark.get(0) + " "+ hind.get(0));window.setScene(soovOstastseen); });
 
 
         Image imageV60 = new Image(getClass().getResourceAsStream(png.get(1)));
@@ -238,7 +230,7 @@ public class Main extends Application {
         Button b_jah = new Button("jah");
         Button b_ei = new Button ("Ei");
 
-        b_jah.setOnMousePressed(e -> {ostuKorv.add(millineAuto);} );
+        b_jah.setOnMousePressed(e -> {ostuKorv.add(millineAuto); window.setScene(stseen2);} );
         b_ei.setOnMouseClicked(e -> window.setScene(ostustseen1));
 
 
@@ -250,10 +242,6 @@ public class Main extends Application {
 
 
         //´KAS SOOVID NÜÜD TSEKKI SAADA.
-
-
-
-
         window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen
         window.show();  // lava tehakse nähtavaks

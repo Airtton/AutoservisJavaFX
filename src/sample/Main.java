@@ -20,13 +20,21 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
-    Stage window;
-    String täisnimi;
-    String valitudAuto;
-    Text kas = new Text();
+
+    private Stage window;
+    private Text kliendiNimi = new Text();
+    private Text kas = new Text("Kas tõesti soovid osta seda autot?");
+    private Label valitudAuto = new Label();
+    private String millineAuto;
     ArrayList<String> ostuKorv = new ArrayList<>();
 
-
+    private void misAuto(String auto){
+        valitudAuto.setText(auto);
+        millineAuto = valitudAuto.getText();
+    }
+    private void misNimi(String nimi){
+        kliendiNimi.setText("Klient: "+ nimi);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -38,12 +46,16 @@ public class Main extends Application {
         BorderPane hooldus1 = new BorderPane();
         GridPane ostuMenüü = new GridPane();
         GridPane soovidOsta = new GridPane();
+        GridPane tsekk = new GridPane();
 
         Scene stseen1 = new Scene(grid, 400, 275); // Loome esimese stseeni
         Scene stseen2 = new Scene(grid1, 400, 275); // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
         Scene soovOstastseen = new Scene(soovidOsta,400,275);
         Scene hooldusestseen1 = new Scene(hooldus1, 300, 150);
+        Scene tsekiStseen = new Scene(tsekk,500,500);
+
+
         // ______________________________________________________________________________________________
         // ESIMESE STSEENI ALGUS
 
@@ -82,9 +94,8 @@ public class Main extends Application {
 
 
         turnoff.setOnMouseClicked(event -> System.exit(1)); // Kui klikkida turnoff nupule siis sys.exit
-        edasi.setOnMouseClicked(event -> {
-            täisnimi = eesnimi.getText() + " " + perenimi.getText();
-            System.out.println(täisnimi);
+        edasi.setOnMousePressed(event -> {
+            misNimi(eesnimi.getText() + " " + perenimi.getText());
             window.setScene(stseen2);
         });
         // Kui klikkida edasi nupule siis läheb next stseeni
@@ -102,30 +113,26 @@ public class Main extends Application {
         labelTitle.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
         Image logo = new Image(getClass().getResourceAsStream("logo275.png"));
 
-        Text tühik = new Text("Klient: "+ täisnimi);
-        tühik.setFont(Font.font("Tahoma",FontWeight.BOLD,10));
-        GridPane.setHalignment(tühik,HPos.CENTER);
+
+        kliendiNimi.setFont(Font.font("Tahoma",FontWeight.BOLD,10));
+        GridPane.setHalignment(kliendiNimi,HPos.CENTER);
 
         Label tühi = new Label("");
-        grid1.add(tühik,0,1,2,1);
+        grid1.add(kliendiNimi,0,1,2,1);
         grid1.add(tühi,0,4,2,1);
 
 
-        // Put on cell (0,0), span 2 column, 1 row.
-        grid1.add(labelTitle, 0, 0, 2, 1);
+
+        grid1.add(labelTitle, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
 
 
         Button ost = new Button("  Ost  ");
-
         Button hooldus = new Button("Hooldus");
-
-
         Button back = new Button("tagasi");
 
         GridPane.setHalignment(ost, HPos.CENTER);
 
-        // Put on cell (0,1)
-        grid1.add(ost, 0, 2,2,1);
+        grid1.add(ost, 0, 2,2,1);// Put on cell (0,1)
 
 
         GridPane.setHalignment(hooldus, HPos.CENTER);
@@ -193,10 +200,8 @@ public class Main extends Application {
         Button volvo1 = new Button(mark.get(0), new ImageView(imageV40));
         volvo1.setOnMouseEntered(e -> {volvo1.setGraphic(new ImageView(imageV40flip));volvo1.setText(hind.get(0));});
         volvo1.setOnMouseExited(e -> {volvo1.setGraphic(new ImageView(imageV40));volvo1.setText(mark.get(0));});
-        volvo1.setOnMouseClicked( e -> {window.setScene(soovOstastseen);
-        valitudAuto = mark.get(0) + " " + hind.get(0);
-        kas.setText(mark.get(0) + " " + hind.get(0));
-        });
+        volvo1.setOnMousePressed( e -> {misAuto(mark.get(0) + " "+ hind.get(0));window.setScene(soovOstastseen);
+             });
 
 
         Image imageV60 = new Image(getClass().getResourceAsStream(png.get(1)));
@@ -204,20 +209,20 @@ public class Main extends Application {
         Button volvo2 = new Button(mark.get(1), new ImageView(imageV60));
         volvo2.setOnMouseEntered(e -> {volvo2.setGraphic(new ImageView(imageV60flip));volvo2.setText(hind.get(1));});
         volvo2.setOnMouseExited(e -> {volvo2.setGraphic(new ImageView(imageV60 ));volvo2.setText(mark.get(1));});
-        volvo1.setOnMouseClicked( e -> {window.setScene(soovOstastseen);});
+        volvo1.setOnMousePressed( e -> {misAuto(mark.get(1) + " " + hind.get(1));window.setScene(soovOstastseen);});
 
         Image imageXC90= new Image(getClass().getResourceAsStream(png.get(2)));
         Image imageXC90flip = new Image(getClass().getResourceAsStream(pngFlip.get(2)));
         Button volvo3 = new Button(mark.get(2), new ImageView(imageXC90));
         volvo3.setOnMouseEntered(e -> {volvo3.setGraphic(new ImageView(imageXC90flip));volvo3.setText(hind.get(2));});
         volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2));});
-        volvo3.setOnMouseClicked( e -> {window.setScene(soovOstastseen);});
+        volvo3.setOnMousePressed( e -> {misAuto(mark.get(2) + " " + hind.get(2));window.setScene(soovOstastseen);});
 
         ostuMenüü.add(volvo1,0,1,1,1);
         ostuMenüü.add(volvo2,1,1,1,1);
         ostuMenüü.add(volvo3,2,1,1,1);
 
-        Button jah = new Button("Jah");
+        Button jah = new Button("Jah"); // EI TEA MIS SEE ON HILJEM VAATAB ÜLE
 
     // DROPBOX
         // OSTUSTSEENI LÕPP
@@ -233,17 +238,23 @@ public class Main extends Application {
         Button b_jah = new Button("jah");
         Button b_ei = new Button ("Ei");
 
+        b_jah.setOnMousePressed(e -> {ostuKorv.add(millineAuto);} );
+        b_ei.setOnMouseClicked(e -> window.setScene(ostustseen1));
+
+
         soovidOsta.add(kas,0,0,3,1);
+        soovidOsta.add(valitudAuto,0,1,3,1);
         soovidOsta.add(b_jah,0,2,1,1);
         soovidOsta.add(b_ei,3,2,1,1);
 
 
 
+        //´KAS SOOVID NÜÜD TSEKKI SAADA.
 
 
 
 
-        window.setTitle("Küsimus");  // lava tiitelribale pannakse tekst
+        window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen
         window.show();  // lava tehakse nähtavaks
 }

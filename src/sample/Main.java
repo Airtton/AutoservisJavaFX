@@ -207,7 +207,6 @@ public class Main extends Application {
             testime.getItems().add(ostuKorv.get(i));
             tükid = ostuKorv.get(i).split(" ");
             hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
-                System.out.println(hind);
             summa.add(hind);}
                     for (int i = 0; i < summa.size(); i++) {
                         intMuutuja += summa.get(i);
@@ -267,22 +266,51 @@ public class Main extends Application {
 
         Image imageV60 = new Image(getClass().getResourceAsStream(png.get(1)));
         Image imageV60flip = new Image(getClass().getResourceAsStream(pngFlip.get(1)));
-        Button volvo2 = new Button(mark.get(1), new ImageView(imageV60));
+        Button volvo2 = new Button(mark.get(1) + "  ", new ImageView(imageV60));
         volvo2.setOnMouseEntered(e -> {volvo2.setGraphic(new ImageView(imageV60flip));volvo2.setText(hind.get(1));});
-        volvo2.setOnMouseExited(e -> {volvo2.setGraphic(new ImageView(imageV60 ));volvo2.setText(mark.get(1));});
+        volvo2.setOnMouseExited(e -> {volvo2.setGraphic(new ImageView(imageV60 ));volvo2.setText(mark.get(1)+ "  ");});
         volvo2.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(1) + "  Hind: " + hind.get(1));window.setScene(soovOstastseen);});
 
         Image imageXC90= new Image(getClass().getResourceAsStream(png.get(2)));
         Image imageXC90flip = new Image(getClass().getResourceAsStream(pngFlip.get(2)));
-        Button volvo3 = new Button(mark.get(2), new ImageView(imageXC90));
+        Button volvo3 = new Button(mark.get(2)+ " ", new ImageView(imageXC90));
         volvo3.setOnMouseEntered(e -> {volvo3.setGraphic(new ImageView(imageXC90flip));volvo3.setText(hind.get(2));});
-        volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2));});
+        volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2)+ " ");});
         volvo3.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(2) + "  Hind: " + hind.get(2));window.setScene(soovOstastseen);});
+
+
+        Image imageS60= new Image(getClass().getResourceAsStream(png.get(3)));
+        Image imageS60flip = new Image(getClass().getResourceAsStream(pngFlip.get(3)));
+        Button volvo4 = new Button(mark.get(3) + "  ", new ImageView(imageS60));
+        volvo4.setOnMouseEntered(e -> {volvo4.setGraphic(new ImageView(imageS60flip));volvo4.setText(hind.get(3));});
+        volvo4.setOnMouseExited(e -> {volvo4.setGraphic(new ImageView(imageS60));volvo4.setText(mark.get(3)+ "  ");});
+        volvo4.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(3) + "  Hind: " + hind.get(3));window.setScene(soovOstastseen);});
+
+
+        Image imageS60cc= new Image(getClass().getResourceAsStream(png.get(4)));
+        Image imageS60ccflip = new Image(getClass().getResourceAsStream(pngFlip.get(4)));
+        Button volvo5 = new Button(mark.get(4), new ImageView(imageS60cc));
+        volvo5.setOnMouseEntered(e -> {volvo5.setGraphic(new ImageView(imageS60ccflip));volvo5.setText(hind.get(4));});
+        volvo5.setOnMouseExited(e -> {volvo5.setGraphic(new ImageView(imageS60cc));volvo5.setText(mark.get(4));});
+        volvo5.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(4) + "  Hind: " + hind.get(4));window.setScene(soovOstastseen);});
+
+
+        Image imageV60cc = new Image(getClass().getResourceAsStream(png.get(5)));
+        Image imageV60ccflip = new Image(getClass().getResourceAsStream(pngFlip.get(5)));
+        Button volvo6 = new Button(mark.get(5), new ImageView(imageV60cc));
+        volvo6.setOnMouseEntered(e -> {volvo6.setGraphic(new ImageView(imageV60ccflip));volvo6.setText(hind.get(5));});
+        volvo6.setOnMouseExited(e -> {volvo6.setGraphic(new ImageView(imageV60cc));volvo6.setText(mark.get(5));});
+        volvo6.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(5) + "  Hind: " + hind.get(5));window.setScene(soovOstastseen);});
+
+
 
         ostuMenüü.add(ostTutvustus, 1,0,1, 1);
         ostuMenüü.add(volvo1,0,1,1,1);
         ostuMenüü.add(volvo2,1,1,1,1);
         ostuMenüü.add(volvo3,2,1,1,1);
+        ostuMenüü.add(volvo4,0,2,1,1);
+        ostuMenüü.add(volvo5,1,2,1,1);
+        ostuMenüü.add(volvo6,2,2,1,1);
 
         Button jah = new Button("Jah"); // EI TEA MIS SEE ON HILJEM VAATAB ÜLE
 
@@ -317,7 +345,7 @@ public class Main extends Application {
         ostuKorvgrid.setPadding(new Insets(25, 25, 25, 25));
         Button maksa = new Button("Maksa ära");
         Button tagasi = new Button("Tagasi");
-        tagasi.setOnMouseClicked(e -> window.setScene(stseen2));
+        tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);testime.getItems().clear();});
         Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
 
 

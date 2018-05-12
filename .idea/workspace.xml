@@ -16,7 +16,7 @@
         <entry file="file://$PROJECT_DIR$/src/sample/Autod.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="441">
-              <caret line="22" column="40" lean-forward="true" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+              <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -25,13 +25,17 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="75" column="57" lean-forward="true" selection-start-line="75" selection-start-column="57" selection-end-line="75" selection-end-column="57" />
+            <state relative-caret-position="149">
+              <caret line="208" column="81" lean-forward="false" selection-start-line="208" selection-start-column="81" selection-end-line="208" selection-end-column="81" />
               <folding>
                 <element signature="e#1388#1389#0" expanded="true" />
                 <element signature="e#1441#1442#0" expanded="true" />
-                <element signature="e#14176#14177#0" expanded="true" />
-                <element signature="e#14204#14205#0" expanded="true" />
+                <element signature="e#9151#9159#0" expanded="true" />
+                <element signature="e#9209#9217#0" expanded="true" />
+                <element signature="e#9266#9274#0" expanded="true" />
+                <element signature="e#9327#9335#0" expanded="true" />
+                <element signature="e#16170#16171#0" expanded="true" />
+                <element signature="e#16198#16199#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -48,6 +52,15 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>view</find>
+      <find>listview</find>
+      <find>getresource</find>
+      <find>testime</find>
+      <find>println(</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -66,8 +79,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
+    <option name="x" value="-8" />
     <option name="width" value="976" />
     <option name="height" value="1038" />
   </component>
@@ -275,6 +287,39 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/sample/Autod.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="22" column="40" lean-forward="true" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Autod.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1113">
+          <caret line="75" column="57" lean-forward="true" selection-start-line="75" selection-start-column="57" selection-end-line="75" selection-end-column="57" />
+          <folding>
+            <element signature="e#1388#1389#0" expanded="true" />
+            <element signature="e#1441#1442#0" expanded="true" />
+            <element signature="e#9151#9159#0" expanded="true" />
+            <element signature="e#9209#9217#0" expanded="true" />
+            <element signature="e#9266#9274#0" expanded="true" />
+            <element signature="e#9327#9335#0" expanded="true" />
+            <element signature="e#16170#16171#0" expanded="true" />
+            <element signature="e#16198#16199#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Autod.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
@@ -288,8 +333,12 @@
           <folding>
             <element signature="e#1388#1389#0" expanded="true" />
             <element signature="e#1441#1442#0" expanded="true" />
-            <element signature="e#14176#14177#0" expanded="true" />
-            <element signature="e#14204#14205#0" expanded="true" />
+            <element signature="e#9151#9159#0" expanded="true" />
+            <element signature="e#9209#9217#0" expanded="true" />
+            <element signature="e#9266#9274#0" expanded="true" />
+            <element signature="e#9327#9335#0" expanded="true" />
+            <element signature="e#16170#16171#0" expanded="true" />
+            <element signature="e#16198#16199#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -309,8 +358,12 @@
           <folding>
             <element signature="e#1388#1389#0" expanded="true" />
             <element signature="e#1441#1442#0" expanded="true" />
-            <element signature="e#14176#14177#0" expanded="true" />
-            <element signature="e#14204#14205#0" expanded="true" />
+            <element signature="e#9151#9159#0" expanded="true" />
+            <element signature="e#9209#9217#0" expanded="true" />
+            <element signature="e#9266#9274#0" expanded="true" />
+            <element signature="e#9327#9335#0" expanded="true" />
+            <element signature="e#16170#16171#0" expanded="true" />
+            <element signature="e#16198#16199#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -341,20 +394,24 @@
     <entry file="file://$PROJECT_DIR$/src/sample/Autod.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
-          <caret line="22" column="40" lean-forward="true" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+          <caret line="22" column="40" lean-forward="false" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="75" column="57" lean-forward="true" selection-start-line="75" selection-start-column="57" selection-end-line="75" selection-end-column="57" />
+        <state relative-caret-position="149">
+          <caret line="208" column="81" lean-forward="false" selection-start-line="208" selection-start-column="81" selection-end-line="208" selection-end-column="81" />
           <folding>
             <element signature="e#1388#1389#0" expanded="true" />
             <element signature="e#1441#1442#0" expanded="true" />
-            <element signature="e#14176#14177#0" expanded="true" />
-            <element signature="e#14204#14205#0" expanded="true" />
+            <element signature="e#9151#9159#0" expanded="true" />
+            <element signature="e#9209#9217#0" expanded="true" />
+            <element signature="e#9266#9274#0" expanded="true" />
+            <element signature="e#9327#9335#0" expanded="true" />
+            <element signature="e#16170#16171#0" expanded="true" />
+            <element signature="e#16198#16199#0" expanded="true" />
           </folding>
         </state>
       </provider>

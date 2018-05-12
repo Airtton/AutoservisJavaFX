@@ -1,3 +1,6 @@
 ﻿V40cc 4000€ v40cc.png v40ccflip.png
 V60 4500€ v60.png v60flip.png
 XC90 10000€ xc90.png xc90flip.png
+S60 2000€ s60.png s60flip.png
+S60cc 5000€ s60cc.png s60ccflip.png
+V60cc 6000€ v60cc.png v60ccflip.png

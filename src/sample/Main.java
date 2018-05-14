@@ -63,7 +63,8 @@ public class Main extends Application {
         window = primaryStage;
         GridPane grid = new GridPane();// Loome esimesele stseenile nö lõuendi
         GridPane grid1 = new GridPane();// loome teisele stseenile nö lõuendi
-        BorderPane hooldus1 = new BorderPane();
+        GridPane hooldus1 = new GridPane();
+        GridPane kerehooldusGrid = new GridPane();
         GridPane ostuMenüü = new GridPane();
         GridPane soovidOsta = new GridPane();
         GridPane ostuKorvgrid = new GridPane();
@@ -73,12 +74,14 @@ public class Main extends Application {
         Scene stseen2 = new Scene(grid1, 400, 275); // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
         Scene soovOstastseen = new Scene(soovidOsta,400,275);
-        Scene hooldusestseen1 = new Scene(hooldus1, 300, 150);
+        Scene hooldusestseen1 = new Scene(hooldus1, 400, 275);
+        Scene kerestseen = new Scene(kerehooldusGrid,350,200);
         Scene errorStseen = new Scene(errorBorder,350,200);
         Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500);
 
 
-        // ______________________________________________________________________________________________
+        // _______________________________________________________________________________________________________________________________________
+
         // ESIMESE STSEENI ALGUS
 
         grid.setAlignment(Pos.CENTER);
@@ -128,12 +131,14 @@ public class Main extends Application {
         // Kui klikkida edasi nupule siis läheb next stseeni
         // ESIMESE STSEENI LÕPP!
 // _______________________________________________________________________________________________________________________________________________
+
         //ERROR STSEEN
+
         errorBorder.setPadding(new Insets(15, 20, 10, 10));
 
 
         Label valeNimi = new Label("Palun sisesta oma ees- ja perekonnanimi korrektselt!");
-        valeNimi.setPadding(new Insets(10,10,10,10));
+        valeNimi.setPadding(new Insets(10,10,10,35));
         valeNimi.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,10));
 
         Button tagasi1 = new Button("Tagasi");
@@ -146,8 +151,11 @@ public class Main extends Application {
 
 
         // ERROR STSEENI LÕPP
+
 //_______________________________________________________________________________________________________________________________________________
+
         // TEISE STSEENI ALGUS
+
         grid1.setAlignment(Pos.CENTER);
         grid1.setHgap(10);
         grid1.setVgap(10);
@@ -177,9 +185,9 @@ public class Main extends Application {
         GridPane.setHalignment(back, HPos.CENTER);
         GridPane.setHalignment(ostukorv,HPos.CENTER);
 
-        grid1.add(labelTitle, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
+        grid1.add(labelTitle, 0, 0, 2, 1);          // Put on cell (0,0), span 2 column, 1 row.
         grid1.add(kliendiNimi,0,1,2,1);
-        grid1.add(ost, 0, 2,2,1);// Put on cell (0,1)
+        grid1.add(ost, 0, 2,2,1);               // Put on cell (0,1)
         grid1.add(hooldus, 0, 3,2,1);
         grid1.add(ostukorv,0,4,2,1);
         grid1.add(tühi,0,5,2,1);
@@ -315,9 +323,11 @@ public class Main extends Application {
         Button jah = new Button("Jah"); // EI TEA MIS SEE ON HILJEM VAATAB ÜLE
 
     // DROPBOX
+
         // OSTUSTSEENI LÕPP
-        //____________________________________________________________________________________________________________________
+        //___________________________________________________________________________________________________________________________________________
         // STSEEN, MIS KÜSIB, KAS SOOVID OSTA SEDA AUTOT!
+
         soovidOsta.setAlignment(Pos.CENTER);
         soovidOsta.setHgap(10);
         soovidOsta.setVgap(10);
@@ -337,8 +347,10 @@ public class Main extends Application {
         soovidOsta.add(b_jah,3,2,1,1);
         soovidOsta.add(b_ei,0,2,1,1);
 
- // __________________________________________________________________________________________________________________________
-    // OSTUKORVI STSEEN ALGAB
+ // _______________________________________________________________________________________________________________________________________________
+
+        // OSTUKORVI STSEEN ALGAB
+
         ostuKorvgrid.setAlignment(Pos.CENTER);
         ostuKorvgrid.setHgap(10);
         ostuKorvgrid.setVgap(10);
@@ -359,19 +371,141 @@ public class Main extends Application {
 
 
         // OSTUKORVI STSEEEN LÕPPEB
-// __________________________________________________________________________________________________________________________
+// _______________________________________________________________________________________________________________________________________________
+
         // MAKSA ÄRA STSEEN!!!
 
         // SIIN TA VÕIKS TÄNADA OSTU EEST!
 
         //maksa ära STSEEN LÕPPEB
-// __________________________________________________________________________________________________________________________
+
+// _______________________________________________________________________________________________________________________________________________
        // HOOLDUSESTSEENI ALGUS
 
+        hooldus1.setAlignment(Pos.CENTER);
+        hooldus1.setHgap(10);
+        hooldus1.setVgap(10);
+        hooldus1.setPadding(new Insets(25, 25, 25, 25));
+
+        Label labelCare = new Label("Valige palun hooldustüüp");
+        labelCare.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
+        Image logo1 = new Image(getClass().getResourceAsStream("logo275.png"));
+
+
+        kliendiNimi.setFont(Font.font("Tahoma",FontWeight.BOLD,10));
+        GridPane.setHalignment(kliendiNimi,HPos.CENTER);
+
+        Label tühi1 = new Label("");
 
 
 
-       //__________________________________________________________________________________________________________________
+
+        Button kerehooldus = new Button("Kerehooldus");
+        Button mootorihooldus = new Button("Mootorihooldus");
+        Button salongihooldus = new Button("Salongihooldus");
+        Button back1 = new Button("tagasi");
+
+        GridPane.setHalignment(kerehooldus, HPos.CENTER);
+        GridPane.setHalignment(mootorihooldus, HPos.CENTER);
+        GridPane.setHalignment(salongihooldus, HPos.CENTER);
+        GridPane.setHalignment(back1,HPos.CENTER);
+
+        hooldus1.add(labelCare, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
+        hooldus1.add(kliendiNimi,0,1,2,1);
+        hooldus1.add(kerehooldus, 0, 2,2,1);// Put on cell (0,1)
+        hooldus1.add(mootorihooldus, 0, 3,2,1);
+        hooldus1.add(salongihooldus,0,4,2,1);
+        hooldus1.add(tühi1,0,5,2,1);
+
+
+
+        hooldus1.add(back, 0, 6,2,2);
+
+        // LOGO PAREMAS ülemises (VÄIKE)
+        hooldus1.setBackground(new Background(new BackgroundImage(logo,BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT)));
+
+        back.setOnMouseClicked(e -> window.setScene(stseen2));                     // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+
+
+        // HOOLDUSE ÜLDSTSEENI LÕPP
+
+        //______________________________________________________________________________________________________
+
+        //  HARUDE ALGUS - KEREHOOLDUS
+
+
+
+
+
+
+
+
+
+
+
+
+        // KEREHOOLDUSE LÕPP
+
+        //______________________________________________________________________________________________________
+
+        // MOOTORIHOOLDUSE ALGUS
+
+
+
+
+
+
+
+
+
+
+        // MOOTORIHOOLDUSE LÕPP
+
+        //_______________________________________________________________________________________________________
+
+
+        /*ostukorv.setOnMouseClicked(e -> {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            int  n = rand.nextInt(5000) + 1000;
+            testime.getItems().add("Arve №" + n);
+            testime.getItems().add("Arve koostati: " + dtf.format(now));
+            testime.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());
+            testime.getItems().add(" ");
+            for (int i = 0; i < ostuKorv.size() ; i++) {
+                testime.getItems().add(ostuKorv.get(i));
+                tükid = ostuKorv.get(i).split(" ");
+                hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
+                summa.add(hind);}
+            for (int i = 0; i < summa.size(); i++) {
+                intMuutuja += summa.get(i);
+            }
+            testime.getItems().add(" ");
+            testime.getItems().add("Kokku: " + intMuutuja +"€");
+            window.setScene(ostuKorviStseen);}
+        );
+
+        ost.setOnMouseClicked(e -> {
+            try {
+                ArrayList<String> autod = Autod.autoNimed();
+
+
+            } catch (FileNotFoundException e1) {
+
+                System.out.println("Faili pole olemas"); // TEKITA UUS AKEN.
+                System.exit(1);
+
+            }
+            window.setScene(ostustseen1);
+        });*/
+
+
+        //__________________________________________________________________________________________________________________
+
+
         window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen
         window.show();  // lava tehakse nähtavaks

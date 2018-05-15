@@ -61,8 +61,8 @@ public class Main extends Application {
 
         // ÜLDSÄTTED ALGUSES
         window = primaryStage;
-        GridPane grid = new GridPane();// Loome esimesele stseenile nö lõuendi
-        GridPane grid1 = new GridPane();// loome teisele stseenile nö lõuendi
+        GridPane grid = new GridPane();      // Loome esimesele stseenile nö lõuendi
+        GridPane grid1 = new GridPane();    // loome teisele stseenile nö lõuendi
         GridPane hooldus1 = new GridPane();
         GridPane kerehooldusGrid = new GridPane();
         GridPane ostuMenüü = new GridPane();
@@ -70,12 +70,12 @@ public class Main extends Application {
         GridPane ostuKorvgrid = new GridPane();
         BorderPane errorBorder = new BorderPane();
 
-        Scene stseen1 = new Scene(grid, 400, 275); // Loome esimese stseeni
-        Scene stseen2 = new Scene(grid1, 400, 275); // loome teise stseeni
+        Scene stseen1 = new Scene(grid, 400, 275);        // Loome esimese stseeni
+        Scene stseen2 = new Scene(grid1, 400, 275);        // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
-        Scene soovOstastseen = new Scene(soovidOsta,400,275);
+        Scene soovOstastseen = new Scene(soovidOsta,400,275);                       // PEAME TEGEMA KÕIK AKNAD ENAM VAÄHEM SAMA SUUURSEKS
         Scene hooldusestseen1 = new Scene(hooldus1, 400, 275);
-        Scene kerestseen = new Scene(kerehooldusGrid,350,200);
+        Scene kerestseen = new Scene(kerehooldusGrid,400,275);
         Scene errorStseen = new Scene(errorBorder,350,200);
         Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500);
 
@@ -380,7 +380,7 @@ public class Main extends Application {
         //maksa ära STSEEN LÕPPEB
 
 // _______________________________________________________________________________________________________________________________________________
-       // HOOLDUSESTSEENI ALGUS
+        // HOOLDUSESTSEENI ALGUS
 
         hooldus1.setAlignment(Pos.CENTER);
         hooldus1.setHgap(10);
@@ -425,6 +425,8 @@ public class Main extends Application {
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
 
+
+        kerehooldus.setOnMouseClicked(e -> window.setScene(kerestseen));
         back1.setOnMouseClicked(e -> window.setScene(stseen2));                   // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
 
 
@@ -434,7 +436,44 @@ public class Main extends Application {
 
         //  HARUDE ALGUS - KEREHOOLDUS
 
+        kerehooldusGrid.setAlignment(Pos.CENTER);
+        kerehooldusGrid.setHgap(10);
+        kerehooldusGrid.setVgap(10);
+        kerehooldusGrid.setPadding(new Insets(25, 25, 25, 25));
 
+        Label labelkere = new Label("Valige teenus, mida soovite kasutada");
+        labelkere.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
+
+        Label tühi2 = new Label("");
+
+
+        Button kriimustus = new Button("Kriimustuse eemaldamine 100€");
+        Button vahatamine = new Button("Kere vahatamine 40€");
+        Button rehvid = new Button("Rehvivahetus 35€");
+        Button back2 = new Button("tagasi");
+
+        GridPane.setHalignment(kriimustus, HPos.CENTER);
+        GridPane.setHalignment(vahatamine, HPos.CENTER);
+        GridPane.setHalignment(rehvid, HPos.CENTER);
+        GridPane.setHalignment(back2,HPos.CENTER);
+
+
+        kerehooldusGrid.add(labelkere, 0, 0, 2, 1);
+        kerehooldusGrid.add(kriimustus, 0, 2,2,1);
+        kerehooldusGrid.add(vahatamine, 0, 3,2,1);
+        kerehooldusGrid.add(rehvid,0,4,2,1);
+        kerehooldusGrid.add(tühi2,0,5,2,1);
+
+        kerehooldusGrid.add(back2, 0, 6,2,2);
+
+        kriimustus.setOnMouseClicked(e -> window.setScene(kerestseen));
+        vahatamine.setOnMouseClicked(e -> window.setScene(kerestseen));
+        rehvid.setOnMouseClicked(e -> window.setScene(kerestseen));
+
+
+        back2.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+
+        // Valik peab minema ostukorvi !
 
 
 

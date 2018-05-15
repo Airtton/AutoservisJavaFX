@@ -38,6 +38,7 @@ public class Main extends Application {
 
     ArrayList<String> ostuKorv = new ArrayList<>();
     Random rand = new Random();
+
     private void misAuto(String auto){
         valitudAuto.setText(auto);
         millineAuto = valitudAuto.getText();
@@ -50,10 +51,10 @@ public class Main extends Application {
 
         for (int i = 0; i < aaa.size(); i++) {
 
-
-        }
+            }
         return nimekiri;
     }
+
     ListView<String> testime = new ListView<>();
 
     @Override
@@ -64,7 +65,7 @@ public class Main extends Application {
         GridPane grid = new GridPane();      // Loome esimesele stseenile nö lõuendi
         GridPane grid1 = new GridPane();    // loome teisele stseenile nö lõuendi
         GridPane hooldus1 = new GridPane();
-        GridPane kerehooldusGrid = new GridPane();
+        GridPane kerehooldusGrid = new GridPane();                                         //PEAME REFACTORIMA NIMETUSED ARVUSAADAVATEKS
         GridPane ostuMenüü = new GridPane();
         GridPane soovidOsta = new GridPane();
         GridPane ostuKorvgrid = new GridPane();
@@ -209,7 +210,7 @@ public class Main extends Application {
                     int  n = rand.nextInt(5000) + 1000;
                     testime.getItems().add("Arve №" + n);
                     testime.getItems().add("Arve koostati: " + dtf.format(now));
-                    testime.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());
+                    testime.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());          // SEE ASI ILUSAKS
                     testime.getItems().add(" ");
             for (int i = 0; i < ostuKorv.size() ; i++) {
             testime.getItems().add(ostuKorv.get(i));
@@ -256,6 +257,7 @@ public class Main extends Application {
         ArrayList<String> hind = new ArrayList<String>();
         ArrayList<String> png = new ArrayList<String>();
         ArrayList<String> pngFlip = new ArrayList<String>();
+
         for (int i = 0; i < autod.size(); i++) {
             String[]tükid = autod.get(i).split(" ");
             mark.add(tükid[0]);
@@ -426,7 +428,21 @@ public class Main extends Application {
                 BackgroundSize.DEFAULT)));
 
 
-        kerehooldus.setOnMouseClicked(e -> window.setScene(kerestseen));
+
+        kerehooldus.setOnMouseClicked(e -> {
+            try {
+                ArrayList<String> kere = Hooldus.kereTeenus();
+
+
+            } catch (FileNotFoundException e1) {
+
+                System.out.println("Faili pole olemas"); // TEKITA UUS AKEN.
+                System.exit(1);
+
+            }
+            window.setScene(kerestseen);
+        });
+
         back1.setOnMouseClicked(e -> window.setScene(stseen2));                   // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
 
 
@@ -441,16 +457,30 @@ public class Main extends Application {
         kerehooldusGrid.setVgap(10);
         kerehooldusGrid.setPadding(new Insets(25, 25, 25, 25));
 
+        ArrayList<String> kerehooldusInfo = Hooldus.kereTeenus();
+        ArrayList<String> teenuseKereNimetus = new ArrayList<String>();
+        ArrayList<String> teenusKereHind = new ArrayList<String>();
+
+        for (int i = 0; i < kerehooldusInfo.size(); i++) {
+            String[]tükid = kerehooldusInfo.get(i).split(";");
+            teenuseKereNimetus.add(tükid[0]);
+            teenusKereHind.add(tükid[1]);
+
+        }
+
+
         Label labelkere = new Label("Valige teenus, mida soovite kasutada");
         labelkere.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
 
         Label tühi2 = new Label("");
 
 
-        Button kriimustus = new Button("Kriimustuse eemaldamine 100€");
-        Button vahatamine = new Button("Kere vahatamine 40€");
-        Button rehvid = new Button("Rehvivahetus 35€");
+        Button kriimustus = new Button(teenuseKereNimetus.get(0) + " " + teenusKereHind.get(0));
+        Button vahatamine = new Button(teenuseKereNimetus.get(1) + " " + teenusKereHind.get(1));
+        Button rehvid = new Button(teenuseKereNimetus.get(2) + " " + teenusKereHind.get(2));
         Button back2 = new Button("tagasi");
+
+
 
         GridPane.setHalignment(kriimustus, HPos.CENTER);
         GridPane.setHalignment(vahatamine, HPos.CENTER);
@@ -466,14 +496,16 @@ public class Main extends Application {
 
         kerehooldusGrid.add(back2, 0, 6,2,2);
 
-        kriimustus.setOnMouseClicked(e -> window.setScene(kerestseen));
-        vahatamine.setOnMouseClicked(e -> window.setScene(kerestseen));
-        rehvid.setOnMouseClicked(e -> window.setScene(kerestseen));
+        //kriimustus.setOnMouseClicked(e -> window.setScene(kerestseen));
+        //vahatamine.setOnMouseClicked(e -> window.setScene(kerestseen));
+        //rehvid.setOnMouseClicked(e -> window.setScene(kerestseen));
 
 
         back2.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
         // Valik peab minema ostukorvi !
+
+
 
 
 

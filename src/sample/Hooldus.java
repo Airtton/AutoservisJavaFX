@@ -58,5 +58,5 @@ public class Hooldus {
         return salongihooldus;
 
 
-
+    }
 }

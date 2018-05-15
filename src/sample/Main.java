@@ -232,6 +232,7 @@ public class Main extends Application {
                     testime.getItems().add("Arve koostati: " + dtf.format(now));
                     testime.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());          // SEE ASI ILUSAKS
                     testime.getItems().add(" ");
+
             for (int i = 0; i < ostuKorv.size() ; i++) {
             testime.getItems().add(ostuKorv.get(i));
             tükid = ostuKorv.get(i).split(" ");
@@ -496,13 +497,13 @@ public class Main extends Application {
 
 
         Button kriimustus = new Button(teenuseKereNimetus.get(0) + " " + teenusKereHind.get(0));
-        kriimustus.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(0) + " Hind: "+ teenusKereHind.get(0));window.setScene(soovOstastseen1); });
+        kriimustus.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseKereNimetus.get(0) + " Hind: "+ teenusKereHind.get(0));window.setScene(soovOstastseen1); });
 
         Button vahatamine = new Button(teenuseKereNimetus.get(1) + " " + teenusKereHind.get(1));
-        vahatamine.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(1) + " Hind: "+ teenusKereHind.get(1));window.setScene(soovOstastseen1); });
+        vahatamine.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseKereNimetus.get(1) + " Hind: "+ teenusKereHind.get(1));window.setScene(soovOstastseen1); });
 
         Button rehvid = new Button(teenuseKereNimetus.get(2) + " " + teenusKereHind.get(2));
-        rehvid.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(2) + " Hind: "+ teenusKereHind.get(2));window.setScene(soovOstastseen1); });
+        rehvid.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseKereNimetus.get(2) + " Hind: "+ teenusKereHind.get(2));window.setScene(soovOstastseen1); });
 
         Button back2 = new Button("tagasi");
 

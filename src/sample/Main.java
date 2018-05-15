@@ -174,7 +174,6 @@ public class Main extends Application {
 
 
 
-
         Button ost = new Button("  Ost  ");
         Button hooldus = new Button("Hooldus");
         Button ostukorv = new Button("Ostukorv");
@@ -203,6 +202,7 @@ public class Main extends Application {
                 BackgroundSize.DEFAULT)));
 
         back.setOnMouseClicked(e -> window.setScene(stseen1));                     // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+
         ostukorv.setOnMouseClicked(e -> {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime now = LocalDateTime.now();
@@ -392,8 +392,6 @@ public class Main extends Application {
         Image logo1 = new Image(getClass().getResourceAsStream("logo275.png"));
 
 
-        kliendiNimi.setFont(Font.font("Tahoma",FontWeight.BOLD,10));
-        GridPane.setHalignment(kliendiNimi,HPos.CENTER);
 
         Label tühi1 = new Label("");
 
@@ -410,24 +408,24 @@ public class Main extends Application {
         GridPane.setHalignment(salongihooldus, HPos.CENTER);
         GridPane.setHalignment(back1,HPos.CENTER);
 
-        hooldus1.add(labelCare, 0, 0, 2, 1); // Put on cell (0,0), span 2 column, 1 row.
-        hooldus1.add(kliendiNimi,0,1,2,1);
-        hooldus1.add(kerehooldus, 0, 2,2,1);// Put on cell (0,1)
+        hooldus1.add(labelCare, 0, 0, 2, 1);
+
+        hooldus1.add(kerehooldus, 0, 2,2,1);
         hooldus1.add(mootorihooldus, 0, 3,2,1);
         hooldus1.add(salongihooldus,0,4,2,1);
         hooldus1.add(tühi1,0,5,2,1);
 
 
 
-        hooldus1.add(back, 0, 6,2,2);
+        hooldus1.add(back1, 0, 6,2,2);
 
-        // LOGO PAREMAS ülemises (VÄIKE)
-        hooldus1.setBackground(new Background(new BackgroundImage(logo,BackgroundRepeat.NO_REPEAT,
+        // LOGO
+        hooldus1.setBackground(new Background(new BackgroundImage(logo1,BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
 
-        back.setOnMouseClicked(e -> window.setScene(stseen2));                     // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+        back1.setOnMouseClicked(e -> window.setScene(stseen2));                   // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
 
 
         // HOOLDUSE ÜLDSTSEENI LÕPP

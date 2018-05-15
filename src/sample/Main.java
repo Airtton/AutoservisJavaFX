@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 public class Main extends Application {
@@ -80,6 +81,7 @@ public class Main extends Application {
         GridPane grid1 = new GridPane();    // loome teisele stseenile nö lõuendi
         GridPane hooldus1 = new GridPane();
         GridPane kerehooldusGrid = new GridPane();                                         //PEAME REFACTORIMA NIMETUSED ARVUSAADAVATEKS
+        GridPane mootorihooldusGrid = new GridPane();
         GridPane ostuMenüü = new GridPane();
         GridPane soovidOsta = new GridPane();
 
@@ -97,6 +99,7 @@ public class Main extends Application {
 
         Scene hooldusestseen1 = new Scene(hooldus1, 400, 275);
         Scene kerestseen = new Scene(kerehooldusGrid,400,275);
+        Scene mootorstseen = new Scene(mootorihooldusGrid,400,275);
         Scene errorStseen = new Scene(errorBorder,350,200);
         Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500);
 
@@ -474,6 +477,7 @@ public class Main extends Application {
             window.setScene(kerestseen);
         });
 
+        mootorihooldus.setOnMouseClicked(e-> window.setScene(mootorstseen));
         back1.setOnMouseClicked(e -> window.setScene(stseen2));                   // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
 
 
@@ -501,7 +505,7 @@ public class Main extends Application {
 
 
         Label labelkere = new Label("Valige teenus, mida soovite kasutada");
-        labelkere.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
+        labelkere.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,12));
 
         Label tühi2 = new Label("");
 
@@ -561,7 +565,7 @@ public class Main extends Application {
 
 
 
-        /* mootorihooldusGrid.setAlignment(Pos.CENTER);
+        mootorihooldusGrid.setAlignment(Pos.CENTER);
         mootorihooldusGrid.setHgap(10);
         mootorihooldusGrid.setVgap(10);
         mootorihooldusGrid.setPadding(new Insets(25, 25, 25, 25));
@@ -585,16 +589,16 @@ public class Main extends Application {
 
 
         Button õlivahetus = new Button(teenuseMootoriNimetus.get(0) + " " + teenusMootorHind.get(0));
-        õlivahetus.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseMootoriNimetus.get(0) + " Hind: "+ teenusMootorHind.get(0));window.setScene(soovOstastseen1); });
+        õlivahetus.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseMootoriNimetus.get(0) + " Hind: "+ teenusMootorHind.get(0));window.setScene(soovOstastseen1); });
 
         Button kütusefilter = new Button(teenuseMootoriNimetus.get(1) + " " + teenusMootorHind.get(1));
         kütusefilter.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseMootoriNimetus.get(1) + " Hind: "+ teenusMootorHind.get(1));window.setScene(soovOstastseen1); });
 
         Button süüteküünal = new Button(teenuseMootoriNimetus.get(2) + " " + teenusMootorHind.get(2));
-        süüteküünal.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseMootoriNimetus.get(2) + " Hind: "+ teenuseMootoriNimetus.get(2));window.setScene(soovOstastseen1); });
+        süüteküünal.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseMootoriNimetus.get(2) + " Hind: "+ teenusMootorHind.get(2));window.setScene(soovOstastseen1); });
 
         Button diagnostika = new Button(teenuseMootoriNimetus.get(3) + " " + teenusMootorHind.get(3));
-        diagnostika.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseMootoriNimetus.get(3) + " Hind: "+ teenuseMootoriNimetus.get(3));window.setScene(soovOstastseen1); });
+        diagnostika.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseMootoriNimetus.get(3) + " Hind: "+ teenusMootorHind.get(3));window.setScene(soovOstastseen1); });
 
 
         Button back3 = new Button("tagasi");
@@ -612,12 +616,12 @@ public class Main extends Application {
         mootorihooldusGrid.add(õlivahetus, 0, 2,2,1);
         mootorihooldusGrid.add(kütusefilter, 0, 3,2,1);
         mootorihooldusGrid.add(süüteküünal,0,4,2,1);
-        mootorihooldusGrid.add(diagnostika,0,4,2,1);
-        mootorihooldusGrid.add(tühi3,0,5,2,1);
-        mootorihooldusGrid.add(back3, 0, 6,2,2);
+        mootorihooldusGrid.add(diagnostika,0,5,2,1);
+        mootorihooldusGrid.add(tühi3,0,6,2,1);
+        mootorihooldusGrid.add(back3, 0, 7,2,2);
 
 
-        back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));*/
+        back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
 
 

@@ -561,6 +561,64 @@ public class Main extends Application {
 
 
 
+        /* mootorihooldusGrid.setAlignment(Pos.CENTER);
+        mootorihooldusGrid.setHgap(10);
+        mootorihooldusGrid.setVgap(10);
+        mootorihooldusGrid.setPadding(new Insets(25, 25, 25, 25));
+
+        ArrayList<String> mootorihooldusInfo = Hooldus.mootoriTeenus();
+        ArrayList<String> teenuseMootoriNimetus = new ArrayList<String>();
+        ArrayList<String> teenusMootorHind = new ArrayList<String>();
+
+        for (int i = 0; i < mootorihooldusInfo.size(); i++) {
+            String[]tükid = mootorihooldusInfo.get(i).split(";");
+            teenuseMootoriNimetus.add(tükid[0]);
+            teenusMootorHind.add(tükid[1]);
+
+        }
+
+
+        Label labelmootor = new Label("Valige teenus, mida soovite kasutada");
+        labelmootor.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
+
+        Label tühi3 = new Label("");
+
+
+        Button õlivahetus = new Button(teenuseMootoriNimetus.get(0) + " " + teenusMootorHind.get(0));
+        õlivahetus.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseMootoriNimetus.get(0) + " Hind: "+ teenusMootorHind.get(0));window.setScene(soovOstastseen1); });
+
+        Button kütusefilter = new Button(teenuseMootoriNimetus.get(1) + " " + teenusMootorHind.get(1));
+        kütusefilter.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseMootoriNimetus.get(1) + " Hind: "+ teenusMootorHind.get(1));window.setScene(soovOstastseen1); });
+
+        Button süüteküünal = new Button(teenuseMootoriNimetus.get(2) + " " + teenusMootorHind.get(2));
+        süüteküünal.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseMootoriNimetus.get(2) + " Hind: "+ teenuseMootoriNimetus.get(2));window.setScene(soovOstastseen1); });
+
+        Button diagnostika = new Button(teenuseMootoriNimetus.get(3) + " " + teenusMootorHind.get(3));
+        diagnostika.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseMootoriNimetus.get(3) + " Hind: "+ teenuseMootoriNimetus.get(3));window.setScene(soovOstastseen1); });
+
+
+        Button back3 = new Button("tagasi");
+
+
+
+        GridPane.setHalignment(õlivahetus, HPos.CENTER);
+        GridPane.setHalignment(kütusefilter, HPos.CENTER);
+        GridPane.setHalignment(süüteküünal, HPos.CENTER);
+        GridPane.setHalignment(diagnostika, HPos.CENTER);
+        GridPane.setHalignment(back3,HPos.CENTER);
+
+
+        mootorihooldusGrid.add(labelmootor, 0, 0, 2, 1);
+        mootorihooldusGrid.add(õlivahetus, 0, 2,2,1);
+        mootorihooldusGrid.add(kütusefilter, 0, 3,2,1);
+        mootorihooldusGrid.add(süüteküünal,0,4,2,1);
+        mootorihooldusGrid.add(diagnostika,0,4,2,1);
+        mootorihooldusGrid.add(tühi3,0,5,2,1);
+        mootorihooldusGrid.add(back3, 0, 6,2,2);
+
+
+        back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));*/
+
 
 
 

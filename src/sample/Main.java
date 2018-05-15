@@ -141,7 +141,7 @@ public class Main extends Application {
 
         turnoff.setOnMouseClicked(event -> System.exit(1));            // Kui klikkida turnoff nupule siis sys.exit
         edasi.setOnMousePressed(event -> {
-            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi")){
+            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 ){
                 window.setScene(errorStseen);
             }
             else{
@@ -333,6 +333,14 @@ public class Main extends Application {
         volvo6.setOnMouseExited(e -> {volvo6.setGraphic(new ImageView(imageV60cc));volvo6.setText(mark.get(5));});
         volvo6.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(5) + "  Hind: " + hind.get(5));window.setScene(soovOstastseen);});
 
+        Text tere = new Text(" ");
+
+
+        Button tagasi2 = new Button("Tagasi");
+        GridPane.setHalignment(tagasi2, HPos.CENTER);
+        tagasi2.setOnMouseClicked(e -> window.setScene(stseen2));
+
+
 
 
         ostuMenüü.add(ostTutvustus, 1,0,1, 1);
@@ -342,6 +350,8 @@ public class Main extends Application {
         ostuMenüü.add(volvo4,0,2,1,1);
         ostuMenüü.add(volvo5,1,2,1,1);
         ostuMenüü.add(volvo6,2,2,1,1);
+        ostuMenüü.add(tere,1,3,1,1);
+        ostuMenüü.add(tagasi2,1,4,1,1);
 
         Button jah = new Button("Jah"); // EI TEA MIS SEE ON HILJEM VAATAB ÜLE
 
@@ -503,7 +513,7 @@ public class Main extends Application {
         vahatamine.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseKereNimetus.get(1) + " Hind: "+ teenusKereHind.get(1));window.setScene(soovOstastseen1); });
 
         Button rehvid = new Button(teenuseKereNimetus.get(2) + " " + teenusKereHind.get(2));
-        rehvid.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseKereNimetus.get(2) + " Hind: "+ teenusKereHind.get(2));window.setScene(soovOstastseen1); });
+        rehvid.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(2) + " Hind: "+ teenusKereHind.get(2));window.setScene(soovOstastseen1); });
 
         Button back2 = new Button("tagasi");
 

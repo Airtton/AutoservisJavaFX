@@ -25,10 +25,14 @@ public class Main extends Application {
 
     private Stage window;
     private Text kliendiNimi = new Text();
-    private Text kas = new Text("Kas tõesti soovid osta seda autot?");
+    private Text kasAuto = new Text("Kas tõesti soovid osta seda autot ?");
+    private Text kasHooldus = new Text("Kas tõesti soovid kasutada seda teenust ?");
+
 
     private Label valitudAuto = new Label();
+    private Label valitudHooldus = new Label();
     private String millineAuto;
+    private String millineHooldus;                                  //JAOTADA ARA HOOLDUSE MUUUTUJAD JA AUTODE MUUTUJA ERALDI KASTIKESTESSE !!!
     private String nimekiri = "";
     private String[] tükid;
     private ArrayList<Integer> summa = new ArrayList<>();
@@ -43,6 +47,16 @@ public class Main extends Application {
         valitudAuto.setText(auto);
         millineAuto = valitudAuto.getText();
     }
+
+
+    private void misHooldus(String hooldus){
+        valitudHooldus.setText(hooldus);
+        millineHooldus = valitudHooldus.getText();
+
+    }
+
+
+
     private void misNimi(String nimi){
         kliendiNimi.setText("Klient: "+ nimi);
     }
@@ -68,6 +82,9 @@ public class Main extends Application {
         GridPane kerehooldusGrid = new GridPane();                                         //PEAME REFACTORIMA NIMETUSED ARVUSAADAVATEKS
         GridPane ostuMenüü = new GridPane();
         GridPane soovidOsta = new GridPane();
+
+        GridPane soovidOsta1 = new GridPane();
+
         GridPane ostuKorvgrid = new GridPane();
         BorderPane errorBorder = new BorderPane();
 
@@ -75,6 +92,9 @@ public class Main extends Application {
         Scene stseen2 = new Scene(grid1, 400, 275);        // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
         Scene soovOstastseen = new Scene(soovidOsta,400,275);                       // PEAME TEGEMA KÕIK AKNAD ENAM VAÄHEM SAMA SUUURSEKS
+
+        Scene soovOstastseen1 = new Scene(soovidOsta1,400,275);
+
         Scene hooldusestseen1 = new Scene(hooldus1, 400, 275);
         Scene kerestseen = new Scene(kerehooldusGrid,400,275);
         Scene errorStseen = new Scene(errorBorder,350,200);
@@ -344,7 +364,7 @@ public class Main extends Application {
         b_ei.setOnMouseClicked(e -> window.setScene(ostustseen1));
 
 
-        soovidOsta.add(kas,0,0,3,1);
+        soovidOsta.add(kasAuto,0,0,3,1);
         soovidOsta.add(valitudAuto,0,1,3,1);
         soovidOsta.add(b_jah,3,2,1,1);
         soovidOsta.add(b_ei,0,2,1,1);
@@ -476,8 +496,14 @@ public class Main extends Application {
 
 
         Button kriimustus = new Button(teenuseKereNimetus.get(0) + " " + teenusKereHind.get(0));
+        kriimustus.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(0) + " Hind: "+ teenusKereHind.get(0));window.setScene(soovOstastseen1); });
+
         Button vahatamine = new Button(teenuseKereNimetus.get(1) + " " + teenusKereHind.get(1));
+        vahatamine.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(1) + " Hind: "+ teenusKereHind.get(1));window.setScene(soovOstastseen1); });
+
         Button rehvid = new Button(teenuseKereNimetus.get(2) + " " + teenusKereHind.get(2));
+        rehvid.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(2) + " Hind: "+ teenusKereHind.get(2));window.setScene(soovOstastseen1); });
+
         Button back2 = new Button("tagasi");
 
 
@@ -534,42 +560,26 @@ public class Main extends Application {
         // MOOTORIHOOLDUSE LÕPP
 
         //_______________________________________________________________________________________________________
+        // STSEEN, MIS KÜSIB, KAS SOOVID SEDA  TEENUST KASUTADA - PEAB JÄÄMA KOIKIFE HOOLDUS HARUDE LÕPPU !!!
+
+        soovidOsta1.setAlignment(Pos.CENTER);
+        soovidOsta1.setHgap(10);
+        soovidOsta1.setVgap(10);
+        soovidOsta1.setPadding(new Insets(25, 25, 25, 25));
 
 
-        /*ostukorv.setOnMouseClicked(e -> {
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            int  n = rand.nextInt(5000) + 1000;
-            testime.getItems().add("Arve №" + n);
-            testime.getItems().add("Arve koostati: " + dtf.format(now));
-            testime.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());
-            testime.getItems().add(" ");
-            for (int i = 0; i < ostuKorv.size() ; i++) {
-                testime.getItems().add(ostuKorv.get(i));
-                tükid = ostuKorv.get(i).split(" ");
-                hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
-                summa.add(hind);}
-            for (int i = 0; i < summa.size(); i++) {
-                intMuutuja += summa.get(i);
-            }
-            testime.getItems().add(" ");
-            testime.getItems().add("Kokku: " + intMuutuja +"€");
-            window.setScene(ostuKorviStseen);}
-        );
 
-        ost.setOnMouseClicked(e -> {
-            try {
-                ArrayList<String> autod = Autod.autoNimed();
+        Button hooldusNupp_jah = new Button("Jah");
+        Button hooldusNupp_ei = new Button ("Ei");
+
+        hooldusNupp_jah.setOnMousePressed(e -> {ostuKorv.add(millineHooldus); window.setScene(stseen2);} );
+        hooldusNupp_ei.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
 
-            } catch (FileNotFoundException e1) {
-
-                System.out.println("Faili pole olemas"); // TEKITA UUS AKEN.
-                System.exit(1);
-
-            }
-            window.setScene(ostustseen1);
-        });*/
+        soovidOsta1.add(kasHooldus,0,0,3,1);
+        soovidOsta1.add(valitudHooldus,0,1,3,1);
+        soovidOsta1.add(hooldusNupp_jah,3,2,1,1);
+        soovidOsta1.add(hooldusNupp_ei,0,2,1,1);
 
 
         //__________________________________________________________________________________________________________________

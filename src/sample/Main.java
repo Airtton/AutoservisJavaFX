@@ -21,6 +21,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main extends Application {
 
@@ -54,6 +56,13 @@ public class Main extends Application {
 
     private void misNimi(String nimi){ // teeb kliendi täisnime(String) Text-iks ja lisab selle ette "klient:". Seda kasutame menüüdes, et klient näks oma nime :)
         kliendiNimi.setText("Klient: "+ nimi);
+    }
+
+    public boolean stringisOnNumber( String s ) { // See meetod kontrollib kas sisestatud stringis on numbrid sees või ei ole. Kui on, siis returnib true, kui ei ole, siis returnib false
+        Pattern p = Pattern.compile( "[0-9]" );
+        Matcher m = p.matcher( s );
+
+        return m.find();
     }
 
 
@@ -124,8 +133,8 @@ public class Main extends Application {
         turnoff.setOnMouseClicked(event -> System.exit(1));      // Kui klikkida turnoff nupule siis sys.exit
 
         // Kui klikkida edasi nupule siis läheb next stseeni
-        edasi.setOnMousePressed(event -> { // Siin kontrollib, et eesnimi ja perenimi poleks tühi, et siin poleks liiga palju tühikuid ja, et perenimi ja eesnimi poleks lühemad kui 2 tähte.
-            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 || eesnimi.getText().contains("  ") || perenimi.getText().contains("  ")){
+        edasi.setOnMousePressed(event -> { // Siin kontrollib, et eesnimi ja perenimi poleks tühi, et siin poleks liiga palju tühikuid ja, et perenimi ja eesnimi poleks lühemad kui 2 tähte. Nüüd kontrollib kas ees-või perenimes on number sees!
+            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 || eesnimi.getText().contains("  ") || perenimi.getText().contains("  ") || stringisOnNumber(eesnimi.getText()) || stringisOnNumber(perenimi.getText())){
                 window.setScene(errorStseen);
             }
             else{// Kui eelolevad tingimused POLE täidetud, siis ta laseb kasutaja järgmisesse stseeni.

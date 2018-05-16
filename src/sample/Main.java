@@ -85,7 +85,7 @@ public class Main extends Application {
         Scene hooldusestseen1 = new Scene(hooldus1, 400, 275); // loome hooldusele stseeni
         Scene kerestseen = new Scene(kerehooldusGrid,400,275); // loome kerehoolduse stseeni
         Scene mootorstseen = new Scene(mootorihooldusGrid,400,275); // loome mootorihoolduse stseeni
-        Scene errorStseen = new Scene(errorBorder,350,200); // loome errori stseenile stseeni
+        Scene errorStseen = new Scene(errorBorder,400,200); // loome errori stseenile stseeni
         Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500); // loome ostukorvi stseeni
         Scene MakseMeetodStseen = new Scene(valiMakseMeetod,500,300); // loome maksemeetodi stseeni
 
@@ -154,7 +154,9 @@ public class Main extends Application {
 
         Label valeNimi = new Label("Palun sisesta oma ees- ja perekonnanimi korrektselt!"); // Loome märkuse, mida kasutaja peaks tegema
         valeNimi.setPadding(new Insets(10,10,10,35)); // Loome märkusele kasti ümber
-        valeNimi.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,10)); // anname märkusele kujunduse
+        valeNimi.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,12)); // anname märkusele kujunduse
+        BorderPane.setAlignment(valeNimi, Pos.TOP_CENTER);
+
 
         Button tagasi1 = new Button("Tagasi"); // tagasi nupp, selleks, et minna tagasi esimesse stseeeni
         tagasi1.setPadding(new Insets(10, 10, 10, 10)); ///  kastike ümber tagasi nupu
@@ -386,7 +388,15 @@ public class Main extends Application {
         Button tagasi = new Button("Tagasi");
         Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
 
-        maksa.setOnMouseClicked(e-> window.setScene(MakseMeetodStseen));
+        maksa.setOnMouseClicked(e-> {
+            if (ostuKorviElemendid.getItems().size() < 7) {
+                valeNimi.setText("Makset ei saa sooritada, kuna sinu ostukorv on tühi!");
+                tagasi1.setOnMouseClicked(event -> window.setScene(ostuKorviStseen));
+                window.setScene(errorStseen);
+            } else {
+                window.setScene(MakseMeetodStseen);
+            }
+        });
         tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear();});
 
 

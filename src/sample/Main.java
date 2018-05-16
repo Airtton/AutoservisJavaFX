@@ -64,6 +64,15 @@ public class Main extends Application {
 
         return m.find();
     }
+    public boolean mituTähteJärjest(String string){ // See meetod kontrollib, kas string sisaldab 3 või enam samasugust tähte
+        Pattern p = Pattern.compile("((\\w)\\2+\\2)+.*");
+        Matcher m = p.matcher(string);
+        while (m.find())
+        {
+            return true;
+        }
+        return false;
+    }
 
 
 
@@ -134,7 +143,7 @@ public class Main extends Application {
 
         // Kui klikkida edasi nupule siis läheb next stseeni
         edasi.setOnMousePressed(event -> { // Siin kontrollib, et eesnimi ja perenimi poleks tühi, et siin poleks liiga palju tühikuid ja, et perenimi ja eesnimi poleks lühemad kui 2 tähte. Nüüd kontrollib kas ees-või perenimes on number sees!
-            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 || eesnimi.getText().contains("  ") || perenimi.getText().contains("  ") || stringisOnNumber(eesnimi.getText()) || stringisOnNumber(perenimi.getText())){
+            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 || eesnimi.getText().contains("  ") || perenimi.getText().contains("  ") || stringisOnNumber(eesnimi.getText()) || stringisOnNumber(perenimi.getText()) || mituTähteJärjest(perenimi.getText()) || mituTähteJärjest(eesnimi.getText())){
                 window.setScene(errorStseen);
             }
             else{// Kui eelolevad tingimused POLE täidetud, siis ta laseb kasutaja järgmisesse stseeni.

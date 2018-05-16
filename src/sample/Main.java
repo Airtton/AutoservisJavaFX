@@ -146,7 +146,7 @@ public class Main extends Application {
 
         // Kui klikkida edasi nupule siis läheb next stseeni
         edasi.setOnMousePressed(event -> { // Siin kontrollib, et eesnimi ja perenimi poleks tühi, et siin poleks liiga palju tühikuid ja, et perenimi ja eesnimi poleks lühemad kui 2 tähte. Nüüd kontrollib kas ees-või perenimes on number sees! Upd: lahter eesnimi ei tohi sisaldada sõna Eesnimi ja lahter perenimie ei tohi sisaldada Perenimi!
-            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 || eesnimi.getText().contains("  ") || perenimi.getText().contains("  ") || stringisOnNumber(eesnimi.getText()) || stringisOnNumber(perenimi.getText()) || mituTähteJärjest(perenimi.getText()) || mituTähteJärjest(eesnimi.getText())|| eesnimi.getText().contains("Eesnimi") || perenimi.getText().contains("Perenimi")){
+            if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 || eesnimi.getText().contains("  ") || perenimi.getText().contains("  ") || stringisOnNumber(eesnimi.getText()) || stringisOnNumber(perenimi.getText()) || mituTähteJärjest(perenimi.getText()) || mituTähteJärjest(eesnimi.getText())|| eesnimi.getText().contains("Eesnimi") || perenimi.getText().contains("Perenimi") || eesnimi.getText().contains("nimi") || perenimi.getText().contains("nimi")){
                 window.setScene(errorStseen);
             }
             else{// Kui eelolevad tingimused POLE täidetud, siis ta laseb kasutaja järgmisesse stseeni.

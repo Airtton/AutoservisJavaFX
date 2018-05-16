@@ -88,6 +88,7 @@ public class Main extends Application {
         GridPane hooldus1 = new GridPane(); // loome hooldusele nö lõuendi
         GridPane kerehooldusGrid = new GridPane();  //loome kerehoolduse lõuendi                                       //PEAME REFACTORIMA NIMETUSED ARVUSAADAVATEKS
         GridPane mootorihooldusGrid = new GridPane(); // loome mootorihooldusele lõuendi
+        GridPane salongihoolduseGrid = new GridPane(); // loome salongihoolduse lõuendi
         GridPane ostuMenüü = new GridPane(); // loome ostumenüüle lõuendi
         GridPane soovidOsta = new GridPane(); // loome lõuendi steenile, kus küsitakse, kas kasutaja soovib seda osta
         GridPane soovidOsta1 = new GridPane(); // Sama, mis ülemine, aga hoolduses
@@ -103,6 +104,7 @@ public class Main extends Application {
         Scene hooldusestseen1 = new Scene(hooldus1, 400, 275); // loome hooldusele stseeni
         Scene kerestseen = new Scene(kerehooldusGrid,400,275); // loome kerehoolduse stseeni
         Scene mootorstseen = new Scene(mootorihooldusGrid,400,275); // loome mootorihoolduse stseeni
+        Scene salongistseen = new Scene(salongihoolduseGrid,400,275); // loome salongihoolduse stseeni
         Scene errorStseen = new Scene(errorBorder,400,200); // loome errori stseenile stseeni
         Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500); // loome ostukorvi stseeni
         Scene MakseMeetodStseen = new Scene(valiMakseMeetod,500,300); // loome maksemeetodi stseeni
@@ -296,7 +298,7 @@ public class Main extends Application {
         ArrayList<String> pngFlip = new ArrayList<String>();
 
         for (int i = 0; i < autod.size(); i++) {
-            String[]tükid = autod.get(i).split(" ");
+            String[] tükid = autod.get(i).split(" ");
             mark.add(tükid[0]);
             hind.add(tükid[1]);
             png.add(tükid[2]);
@@ -538,6 +540,7 @@ public class Main extends Application {
         });
 
         mootorihooldus.setOnMouseClicked(e-> window.setScene(mootorstseen));
+        salongihooldus.setOnMouseClicked(e-> window.setScene(salongistseen));
         back1.setOnMouseClicked(e -> window.setScene(stseen2));                   // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
 
 
@@ -557,7 +560,7 @@ public class Main extends Application {
         ArrayList<String> teenusKereHind = new ArrayList<String>();
 
         for (int i = 0; i < kerehooldusInfo.size(); i++) {
-            String[]tükid = kerehooldusInfo.get(i).split(";");
+            String[] tükid = kerehooldusInfo.get(i).split(";");
             teenuseKereNimetus.add(tükid[0]);
             teenusKereHind.add(tükid[1]);
 
@@ -622,7 +625,7 @@ public class Main extends Application {
         ArrayList<String> teenusMootorHind = new ArrayList<String>();
 
         for (int i = 0; i < mootorihooldusInfo.size(); i++) {
-            String[]tükid = mootorihooldusInfo.get(i).split(";");
+            String[] tükid = mootorihooldusInfo.get(i).split(";");
             teenuseMootoriNimetus.add(tükid[0]);
             teenusMootorHind.add(tükid[1]);
 
@@ -665,12 +668,67 @@ public class Main extends Application {
         mootorihooldusGrid.add(tühi3,0,6,2,1);
         mootorihooldusGrid.add(back3, 0, 7,2,2);
 
+        back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
 
 
         // MOOTORIHOOLDUSE LÕPP
+        //_______________________________________________________________________________________________________________
 
-        //_______________________________________________________________________________________________________
+        // SALONGIHOOLDUSE ALGUS
+
+        salongihoolduseGrid.setAlignment(Pos.CENTER);
+        salongihoolduseGrid.setHgap(10);
+        salongihoolduseGrid.setVgap(10);
+        salongihoolduseGrid.setPadding(new Insets(25, 25, 25, 25));
+
+        ArrayList<String> salongiHoolduseInfo = Hooldus.salogiTeenus();
+        ArrayList<String> teenuseSalongNimetus = new ArrayList<String>();
+        ArrayList<String> teenuseSalongHind = new ArrayList<String>();
+
+        for (int i = 0; i < salongiHoolduseInfo.size(); i++) {
+            String[] tükid = salongiHoolduseInfo.get(i).split(";");
+            teenuseSalongNimetus.add(tükid[0]);
+            teenuseSalongHind.add(tükid[1]);
+
+        }
+
+
+        Label labelSalong = new Label("Valige teenus, mida soovite kasutada");
+        labelSalong.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
+
+        Label tühi4 = new Label("");  // tühi rida/ala
+
+
+        Button kuivPuhastus = new Button(teenuseSalongNimetus.get(0) + " " + teenuseSalongHind.get(0));
+        kuivPuhastus.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseSalongNimetus.get(0) + " Hind: "+ teenuseSalongHind.get(0));window.setScene(soovOstastseen1); });
+
+        Button sügavPuhastus = new Button(teenuseSalongNimetus.get(1) + " " + teenuseSalongHind.get(1));
+        sügavPuhastus.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseSalongNimetus.get(1) + " Hind: "+ teenuseSalongHind.get(1));window.setScene(soovOstastseen1); });
+
+        Button taastamine = new Button(teenuseSalongNimetus.get(2) + " " + teenuseSalongHind.get(2));
+        taastamine.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseSalongNimetus.get(2) + " Hind: "+ teenuseSalongHind.get(2));window.setScene(soovOstastseen1); });
+
+
+        Button back4 = new Button("tagasi");
+        back4.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+
+        GridPane.setHalignment(kuivPuhastus, HPos.CENTER);
+        GridPane.setHalignment(sügavPuhastus, HPos.CENTER);
+        GridPane.setHalignment(taastamine, HPos.CENTER);
+        GridPane.setHalignment(back4,HPos.CENTER);
+
+
+        salongihoolduseGrid.add(labelSalong, 0, 0, 2, 1);
+        salongihoolduseGrid.add(kuivPuhastus, 0, 2,2,1);
+        salongihoolduseGrid.add(sügavPuhastus, 0, 3,2,1);
+        salongihoolduseGrid.add(taastamine,0,4,2,1);
+        salongihoolduseGrid.add(tühi4,0,6,2,1);
+        salongihoolduseGrid.add(back4, 0, 7,2,2);
+
+        back4.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+
+        //_______________________________________________________________________________________________________________
         // STSEEN, MIS KÜSIB, KAS SOOVID SEDA  TEENUST KASUTADA - PEAB JÄÄMA KOIKIFE HOOLDUS HARUDE LÕPPU !!!
 
         soovidOsta1.setAlignment(Pos.CENTER);

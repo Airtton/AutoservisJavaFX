@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -722,6 +723,8 @@ public class Main extends Application {
         Text valiMm = new Text("Vali maksemeetod");
         GridPane.setHalignment(valiMm,HPos.CENTER);
 
+
+
         Image swed = new Image(getClass().getResourceAsStream("swed.png"));
         Button swedBank = new Button("", new ImageView(swed));
 
@@ -734,23 +737,29 @@ public class Main extends Application {
         Text hoiatus = new Text("Kuna me ise ei müü mitte ühtegi asja ning raha selle eest nõuda ei saa, \n siis nupule vajutades Te väljute programmist. \n Sellisel viisil kujutame ette, et ostud on makstud ja soovime Teile ilusat päevajätku! ");
         GridPane.setHalignment(hoiatus,HPos.CENTER);
         hoiatus.setTextAlignment(TextAlignment.CENTER);
-        Text tühiala = new Text(" ");
+
+
+        Text kolmtühja = new Text("   \n  \n   ");
+
 
         swedBank.setOnMouseClicked(e -> System.exit(1));
-        swedBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
-        swedBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+        swedBank.setOnMouseEntered(e-> {valiMakseMeetod.getChildren().remove(kolmtühja); valiMakseMeetod.add(hoiatus,0,2,3,3);});
+        swedBank.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
+
         sebBank.setOnMouseClicked(e -> System.exit(1));
-        sebBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
-        sebBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+        sebBank.setOnMouseEntered(e-> {valiMakseMeetod.getChildren().remove(kolmtühja);valiMakseMeetod.add(hoiatus,0,2,3,3);});
+        sebBank.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
+
         bitCoin.setOnMouseClicked(e -> System.exit(1));
-        bitCoin.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
-        bitCoin.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+        bitCoin.setOnMouseEntered(e->{valiMakseMeetod.getChildren().remove(kolmtühja);valiMakseMeetod.add(hoiatus,0,2,3,3);});
+        bitCoin.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
 
 
         valiMakseMeetod.add(valiMm,1,0,1,1);
         valiMakseMeetod.add(swedBank,0,1,1,1);
         valiMakseMeetod.add(sebBank,1,1,1,1);
         valiMakseMeetod.add(bitCoin,2,1,1,1);
+        valiMakseMeetod.add(kolmtühja,0,2,3,3);
 
         //maksa ära STSEEN LÕPPEB
         //______________________________________________________________________________________________________________________

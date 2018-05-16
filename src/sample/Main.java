@@ -14,167 +14,159 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.Random;
 
 public class Main extends Application {
 
-    private Stage window;
-    private Text kliendiNimi = new Text();
-    private Text kasAuto = new Text("Kas tõesti soovid osta seda autot ?");
-    private Text kasHooldus = new Text("Kas tõesti soovid kasutada seda teenust ?");
+    private Stage window; // Anname lavale nimetuse
+    private Text kliendiNimi = new Text(); // kliendi nimi TEXT formaadis
+    private Text kasAuto = new Text("Kas tõesti soovid osta seda autot ?"); // Text auto ostu kinnitamiseks
+    private Text kasHooldus = new Text("Kas tõesti soovid kasutada seda teenust ?"); // text hoolduse kinnitamiseks
+    private Label valitudAuto = new Label(); // kuvab eelnevalt valitud auto ekraanile
+    private Label valitudHooldus = new Label(); // kuvab eelnevalt valitud hoolduse ekraanile
+    private String millineAuto; // String lisab valitud auto ostukorvi või teeb selle valitudautoks
+    private String millineHooldus;   // String lisab valitud hoolduse ostukorvi või teeb selle valitudhoolduseks  //JAOTADA ARA HOOLDUSE MUUUTUJAD JA AUTODE MUUTUJA ERALDI KASTIKESTESSE !!!
+    private String nimekiri = ""; // PÄRST KIRJELDAB, HETKEL EI MÄLETA JA EI VIITSI UURIDA
+    private String[] tükid; // Üks väga tähtis osa stringide tükeldamiseks
+    private ArrayList<Integer> summa = new ArrayList<>(); // Lisab int summad listi ja pärast selle listi najal väljastatkse lõppsumma!
+    private int hind; // jooksev hind vms
+    private int intMuutuja; // mingisugune suvaline muutuja, mida oli lihtsalt vaja vahepeal kasutada.
 
+    ArrayList<String> ostuKorv = new ArrayList<>(); // Ostukorvi list, seal on sees kõik kasutaja valitud ostud/teenused.
+    Random rand = new Random(); // Random, genereerib meile pärast arve numbri :)
 
-    private Label valitudAuto = new Label();
-    private Label valitudHooldus = new Label();
-    private String millineAuto;
-    private String millineHooldus;                                  //JAOTADA ARA HOOLDUSE MUUUTUJAD JA AUTODE MUUTUJA ERALDI KASTIKESTESSE !!!
-    private String nimekiri = "";
-    private String[] tükid;
-    private ArrayList<Integer> summa = new ArrayList<>();
-    private int hind;
-    private int intMuutuja;
-
-
-    ArrayList<String> ostuKorv = new ArrayList<>();
-    Random rand = new Random();
-
-    private void misAuto(String auto){
+    private void misAuto(String auto){ // Teeb stringi Text formaadiks ja võtab kohe ka sealt getText.
         valitudAuto.setText(auto);
         millineAuto = valitudAuto.getText();
     }
 
-
-    private void misHooldus(String hooldus){
+    private void misHooldus(String hooldus){ // Sama mis misauto ainuld hoolduse jaoks
         valitudHooldus.setText(hooldus);
         millineHooldus = valitudHooldus.getText();
 
     }
 
-
-
-    private void misNimi(String nimi){
+    private void misNimi(String nimi){ // teeb kliendi täisnime(String) Text-iks ja lisab selle ette "klient:". Seda kasutame menüüdes, et klient näks oma nime :)
         kliendiNimi.setText("Klient: "+ nimi);
     }
 
-    private String nimeKiri(ArrayList<String> aaa){
 
-        for (int i = 0; i < aaa.size(); i++) {
 
-            }
-        return nimekiri;
-    }
-
-    ListView<String> testime = new ListView<>();
+    private ListView<String> ostuKorviElemendid = new ListView<>(); // Ostunimekiri peaks see oleam
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception { // yaay! programm saab alguse!
 
         // ÜLDSÄTTED ALGUSES
-        window = primaryStage;
+        window = primaryStage; //Nagu ülal andsime lavale nimetuse "Window" nüüd anname teada, et seesama window on meie kõige primarystage
         GridPane grid = new GridPane();      // Loome esimesele stseenile nö lõuendi
         GridPane grid1 = new GridPane();    // loome teisele stseenile nö lõuendi
-        GridPane hooldus1 = new GridPane();
-        GridPane kerehooldusGrid = new GridPane();                                         //PEAME REFACTORIMA NIMETUSED ARVUSAADAVATEKS
-        GridPane mootorihooldusGrid = new GridPane();
-        GridPane ostuMenüü = new GridPane();
-        GridPane soovidOsta = new GridPane();
-
-        GridPane soovidOsta1 = new GridPane();
-
-        GridPane ostuKorvgrid = new GridPane();
-        BorderPane errorBorder = new BorderPane();
+        GridPane hooldus1 = new GridPane(); // loome hooldusele nö lõuendi
+        GridPane kerehooldusGrid = new GridPane();  //loome kerehoolduse lõuendi                                       //PEAME REFACTORIMA NIMETUSED ARVUSAADAVATEKS
+        GridPane mootorihooldusGrid = new GridPane(); // loome mootorihooldusele lõuendi
+        GridPane ostuMenüü = new GridPane(); // loome ostumenüüle lõuendi
+        GridPane soovidOsta = new GridPane(); // loome lõuendi steenile, kus küsitakse, kas kasutaja soovib seda osta
+        GridPane soovidOsta1 = new GridPane(); // Sama, mis ülemine, aga hoolduses
+        GridPane ostuKorvgrid = new GridPane(); // loome ostukorvile lõuendi
+        BorderPane errorBorder = new BorderPane(); // loome error stseenile lõuendi
+        GridPane valiMakseMeetod = new GridPane(); //Maksemeetodi valiku lõuend
 
         Scene stseen1 = new Scene(grid, 400, 275);        // Loome esimese stseeni
         Scene stseen2 = new Scene(grid1, 400, 275);        // loome teise stseeni
-        Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ;
-        Scene soovOstastseen = new Scene(soovidOsta,400,275);                       // PEAME TEGEMA KÕIK AKNAD ENAM VAÄHEM SAMA SUUURSEKS
-
-        Scene soovOstastseen1 = new Scene(soovidOsta1,400,275);
-
-        Scene hooldusestseen1 = new Scene(hooldus1, 400, 275);
-        Scene kerestseen = new Scene(kerehooldusGrid,400,275);
-        Scene mootorstseen = new Scene(mootorihooldusGrid,400,275);
-        Scene errorStseen = new Scene(errorBorder,350,200);
-        Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500);
+        Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ; // Loome stseeni autode ostumenüüle
+        Scene soovOstastseen = new Scene(soovidOsta,400,275); //Loome stseeni, mis kontrollib üle, kas kasutaja tahab osta seda autot    // PEAME TEGEMA KÕIK AKNAD ENAM VAÄHEM SAMA SUUURSEKS,
+        Scene soovOstastseen1 = new Scene(soovidOsta1,400,275); // sama, mis eelmine, kuid see on hoolduses
+        Scene hooldusestseen1 = new Scene(hooldus1, 400, 275); // loome hooldusele stseeni
+        Scene kerestseen = new Scene(kerehooldusGrid,400,275); // loome kerehoolduse stseeni
+        Scene mootorstseen = new Scene(mootorihooldusGrid,400,275); // loome mootorihoolduse stseeni
+        Scene errorStseen = new Scene(errorBorder,350,200); // loome errori stseenile stseeni
+        Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500); // loome ostukorvi stseeni
+        Scene MakseMeetodStseen = new Scene(valiMakseMeetod,500,300); // loome maksemeetodi stseeni
 
 
         // _______________________________________________________________________________________________________________________________________
 
         // ESIMESE STSEENI ALGUS
 
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setAlignment(Pos.CENTER); // Määrame esimesele stseenile asukoha (stseen asub ekraani keskel)
+        grid.setHgap(10); // Määrame horisontaalsed vahemikud ridade vahel
+        grid.setVgap(10); // loome vahed columnite vahel.
+        grid.setPadding(new Insets(25, 25, 25, 25)); // loome stseenile nö kasti ümber
 
-        Text scenetitle = new Text("Teretulemast volvo e-teenindusse!");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 2, 1);
+        Text scenetitle = new Text("Teretulemast volvo e-teenindusse!"); // esimese steeni tutvustus
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20)); // tutvustuse teksti vormindus
 
-        Text tutvustus = new Text("Sisestage ees- ja perekonnanimi.");
-        grid.add(tutvustus,1,1,1,1);
+        Text tutvustus = new Text("Sisestage ees- ja perekonnanimi."); // tekst, mis ütleb, mida tuleb teha
 
-        Label forName = new Label("Eesnimi:");
-        grid.add(forName, 0, 2);
+        Label forName = new Label("Eesnimi:"); // tekst, mis teeb arusaadavaks, mida tuleb lahtrisse sisestada
 
-        TextField eesnimi = new TextField("Eesnimi");
-        grid.add(eesnimi, 1, 2);
+        TextField eesnimi = new TextField("Eesnimi"); // lahter, kuhu tuleb sisestada eesnimi
 
-        Label surname = new Label("Perenimi:");
-        grid.add(surname, 0, 3);
+        Label surname = new Label("Perenimi:"); // tekst, mis teeb arusaadavaks, mida tuleb lahtrisse sisestada
 
-        TextField perenimi = new TextField("Perenimi");
-        grid.add(perenimi, 1, 3);
-
-        Button edasi = new Button("Edasi");
-        HBox hbBtn = new HBox(10);                                      // ala nupu jaoks, loon calumnisse spets ala n.ö vundamendi
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(edasi);
-        grid.add(hbBtn, 1, 5);
-
-        Button turnoff = new Button("Välju");
-        grid.add(turnoff,0,5,1,1);
+        TextField perenimi = new TextField("Perenimi");// lahter, kuhu tuleb sisestada perekonnanimi
 
 
-        turnoff.setOnMouseClicked(event -> System.exit(1));            // Kui klikkida turnoff nupule siis sys.exit
-        edasi.setOnMousePressed(event -> {
+        Button edasi = new Button("Edasi");// Nupp edasi,
+        HBox hbBtn = new HBox(10);      // ala nupu jaoks, loon cplumnisse spets ala n.ö vundamendi
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT); // positsioon
+        hbBtn.getChildren().add(edasi); // lisan "vundamendile" nupu.
+
+        Button turnoff = new Button("Välju"); // nupp programmist väljumiseks
+
+
+        turnoff.setOnMouseClicked(event -> System.exit(1));      // Kui klikkida turnoff nupule siis sys.exit
+
+        // Kui klikkida edasi nupule siis läheb next stseeni
+        edasi.setOnMousePressed(event -> { // Siin kontrollib, et eesnimi ja perenimi poleks tühi, et siin poleks liiga palju tühikuid ja, et perenimi ja eesnimi poleks lühemad kui 2 tähte.
             if (eesnimi.getText().equals("Eesnimi") || perenimi.getText().equals("Perenimi") || eesnimi.getText().length() < 2 || perenimi.getText().length() < 2 || eesnimi.getText().contains("  ") || perenimi.getText().contains("  ")){
                 window.setScene(errorStseen);
             }
-            else{
+            else{// Kui eelolevad tingimused POLE täidetud, siis ta laseb kasutaja järgmisesse stseeni.
             misNimi(eesnimi.getText() + " " + perenimi.getText());
             window.setScene(stseen2);
         }});
 
-        // Kui klikkida edasi nupule siis läheb next stseeni
+        // Siin asetame eelolevad elemendid lõuendile.
+        grid.add(scenetitle, 0, 0, 2, 1);
+        grid.add(tutvustus,1,1,1,1);
+        grid.add(forName, 0, 2);
+        grid.add(eesnimi, 1, 2);
+        grid.add(surname, 0, 3);
+        grid.add(perenimi, 1, 3);
+        grid.add(hbBtn, 1, 5);
+        grid.add(turnoff,0,5,1,1);
         // ESIMESE STSEENI LÕPP!
+
+
 // _______________________________________________________________________________________________________________________________________________
 
         //ERROR STSEEN
+        // Seda stseeni on vaja juhul, kui kasutaja nimi või perenimi on valesti sisestatud.
+        errorBorder.setPadding(new Insets(15, 20, 10, 10)); // loon nö kasti selle stseeni ümber
 
-        errorBorder.setPadding(new Insets(15, 20, 10, 10));
 
+        Label valeNimi = new Label("Palun sisesta oma ees- ja perekonnanimi korrektselt!"); // Loome märkuse, mida kasutaja peaks tegema
+        valeNimi.setPadding(new Insets(10,10,10,35)); // Loome märkusele kasti ümber
+        valeNimi.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,10)); // anname märkusele kujunduse
 
-        Label valeNimi = new Label("Palun sisesta oma ees- ja perekonnanimi korrektselt!");
-        valeNimi.setPadding(new Insets(10,10,10,35));
-        valeNimi.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,10));
+        Button tagasi1 = new Button("Tagasi"); // tagasi nupp, selleks, et minna tagasi esimesse stseeeni
+        tagasi1.setPadding(new Insets(10, 10, 10, 10)); ///  kastike ümber tagasi nupu
 
-        Button tagasi1 = new Button("Tagasi");
-        tagasi1.setPadding(new Insets(10, 10, 10, 10));
+        tagasi1.setOnMouseClicked(e -> window.setScene(stseen1)); // kui klickida tagasi nupule, siis läheb tagasi esimesse stseeni
 
-        tagasi1.setOnMouseClicked(e -> window.setScene(stseen1));
-
+        // lisame meie lõuendile elemendid
         errorBorder.setCenter(tagasi1);
         errorBorder.setTop(valeNimi);
-
-
         // ERROR STSEENI LÕPP
+
+
 
 //_______________________________________________________________________________________________________________________________________________
 
@@ -231,21 +223,21 @@ public class Main extends Application {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime now = LocalDateTime.now();
                     int  n = rand.nextInt(5000) + 1000;
-                    testime.getItems().add("Arve №" + n);
-                    testime.getItems().add("Arve koostati: " + dtf.format(now));
-                    testime.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());          // SEE ASI ILUSAKS
-                    testime.getItems().add(" ");
+                    ostuKorviElemendid.getItems().add("Arve №" + n);
+                    ostuKorviElemendid.getItems().add("Arve koostati: " + dtf.format(now));
+                    ostuKorviElemendid.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());          // SEE ASI ILUSAKS
+                    ostuKorviElemendid.getItems().add(" ");
 
             for (int i = 0; i < ostuKorv.size() ; i++) {
-            testime.getItems().add(ostuKorv.get(i));
+            ostuKorviElemendid.getItems().add(ostuKorv.get(i));
             tükid = ostuKorv.get(i).split(" ");
             hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
             summa.add(hind);}
                     for (int i = 0; i < summa.size(); i++) {
                         intMuutuja += summa.get(i);
                     }
-            testime.getItems().add(" ");
-            testime.getItems().add("Kokku: " + intMuutuja +"€");
+            ostuKorviElemendid.getItems().add(" ");
+            ostuKorviElemendid.getItems().add("Kokku: " + intMuutuja +"€");
              window.setScene(ostuKorviStseen);}
              );
 
@@ -275,6 +267,7 @@ public class Main extends Application {
         ostuMenüü.setPadding(new Insets(25, 25, 25, 25));
 
         Text ostTutvustus = new Text("Teie ees on müügilolevad autod: ");
+        Text tere = new Text(" ");
 
         ArrayList<String> autod = Autod.autoNimed();
         ArrayList<String> mark = new ArrayList<String>();
@@ -336,15 +329,15 @@ public class Main extends Application {
         volvo6.setOnMouseExited(e -> {volvo6.setGraphic(new ImageView(imageV60cc));volvo6.setText(mark.get(5));});
         volvo6.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(5) + "  Hind: " + hind.get(5));window.setScene(soovOstastseen);});
 
-        Text tere = new Text(" ");
+
+
+
+
 
 
         Button tagasi2 = new Button("Tagasi");
         GridPane.setHalignment(tagasi2, HPos.CENTER);
         tagasi2.setOnMouseClicked(e -> window.setScene(stseen2));
-
-
-
 
         ostuMenüü.add(ostTutvustus, 1,0,1, 1);
         ostuMenüü.add(volvo1,0,1,1,1);
@@ -356,9 +349,6 @@ public class Main extends Application {
         ostuMenüü.add(tere,1,3,1,1);
         ostuMenüü.add(tagasi2,1,4,1,1);
 
-        Button jah = new Button("Jah"); // EI TEA MIS SEE ON HILJEM VAATAB ÜLE
-
-    // DROPBOX
 
         // OSTUSTSEENI LÕPP
         //___________________________________________________________________________________________________________________________________________
@@ -391,14 +381,16 @@ public class Main extends Application {
         ostuKorvgrid.setHgap(10);
         ostuKorvgrid.setVgap(10);
         ostuKorvgrid.setPadding(new Insets(25, 25, 25, 25));
+
         Button maksa = new Button("Maksa ära");
         Button tagasi = new Button("Tagasi");
-        tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);testime.getItems().clear();});
         Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
 
+        maksa.setOnMouseClicked(e-> window.setScene(MakseMeetodStseen));
+        tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear();});
 
-        Text ostukorviElemendid = new Text(nimeKiri(ostuKorv));
-        HBox hbox = new HBox(testime);
+
+        HBox hbox = new HBox(ostuKorviElemendid);
         ostuKorvgrid.add(siinolevad,0,0,1,3);
         ostuKorvgrid.add(tühi,0,1,1,1);
         ostuKorvgrid.add(maksa,4,2,1,1);
@@ -410,8 +402,48 @@ public class Main extends Application {
 // _______________________________________________________________________________________________________________________________________________
 
         // MAKSA ÄRA STSEEN!!!
+        valiMakseMeetod.setAlignment(Pos.CENTER);
+        valiMakseMeetod.setHgap(10);
+        valiMakseMeetod.setVgap(10);
+        valiMakseMeetod.setPadding(new Insets(25, 25, 25, 25));
 
-        // SIIN TA VÕIKS TÄNADA OSTU EEST!
+        Text valiMm = new Text("Vali maksemeetod");
+        GridPane.setHalignment(valiMm,HPos.CENTER);
+
+        Image swed = new Image(getClass().getResourceAsStream("swed.png"));
+        Button swedBank = new Button("", new ImageView(swed));
+
+        Image seb = new Image(getClass().getResourceAsStream("seb.png"));
+        Button sebBank = new Button("", new ImageView(seb));
+
+        Image bit = new Image(getClass().getResourceAsStream("bit.png"));
+        Button bitCoin = new Button("", new ImageView(bit));
+
+        Text hoiatus = new Text("Kuna me ise ei müü mitte ühtegi asja ning raha selle eest nõuda ei saa, \n siis nupule vajutades Te väljute programmist. \n Sellisel viisil kujutame ette, et ostud on makstud ja soovime Teile ilusat päevajätku! ");
+        GridPane.setHalignment(hoiatus,HPos.CENTER);
+        hoiatus.setTextAlignment(TextAlignment.CENTER);
+        Text tühiala = new Text(" ");
+
+        swedBank.setOnMouseClicked(e -> System.exit(1));
+        swedBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
+        swedBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+        sebBank.setOnMouseClicked(e -> System.exit(1));
+        sebBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
+        sebBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+        bitCoin.setOnMouseClicked(e -> System.exit(1));
+        bitCoin.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
+        bitCoin.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+
+
+        valiMakseMeetod.add(valiMm,1,0,1,1);
+        valiMakseMeetod.add(swedBank,0,1,1,1);
+        valiMakseMeetod.add(sebBank,1,1,1,1);
+        valiMakseMeetod.add(bitCoin,2,1,1,1);
+
+
+
+
+
 
         //maksa ära STSEEN LÕPPEB
 
@@ -537,23 +569,10 @@ public class Main extends Application {
 
         kerehooldusGrid.add(back2, 0, 6,2,2);
 
-        //kriimustus.setOnMouseClicked(e -> window.setScene(kerestseen));
-        //vahatamine.setOnMouseClicked(e -> window.setScene(kerestseen));
-        //rehvid.setOnMouseClicked(e -> window.setScene(kerestseen));
+
 
 
         back2.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
-
-        // Valik peab minema ostukorvi !
-
-
-
-
-
-
-
-
-
 
 
 
@@ -600,10 +619,8 @@ public class Main extends Application {
         Button diagnostika = new Button(teenuseMootoriNimetus.get(3) + " " + teenusMootorHind.get(3));
         diagnostika.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseMootoriNimetus.get(3) + " Hind: "+ teenusMootorHind.get(3));window.setScene(soovOstastseen1); });
 
-
         Button back3 = new Button("tagasi");
-
-
+        back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
         GridPane.setHalignment(õlivahetus, HPos.CENTER);
         GridPane.setHalignment(kütusefilter, HPos.CENTER);
@@ -619,13 +636,6 @@ public class Main extends Application {
         mootorihooldusGrid.add(diagnostika,0,5,2,1);
         mootorihooldusGrid.add(tühi3,0,6,2,1);
         mootorihooldusGrid.add(back3, 0, 7,2,2);
-
-
-        back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
-
-
-
-
 
 
 

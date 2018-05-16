@@ -91,8 +91,8 @@ public class Main extends Application {
         GridPane salongihoolduseGrid = new GridPane(); // loome salongihoolduse lõuendi
         GridPane ostuMenüü = new GridPane(); // loome ostumenüüle lõuendi
         GridPane soovidOsta = new GridPane(); // loome lõuendi steenile, kus küsitakse, kas kasutaja soovib seda osta
-        GridPane soovidOsta1 = new GridPane(); // Sama, mis ülemine, aga hoolduses
-        GridPane ostuKorvgrid = new GridPane(); // loome ostukorvile lõuendi
+        GridPane soovidOstaHooldus = new GridPane(); // Sama, mis ülemine, aga hoolduses
+        GridPane ostuKorvGrid = new GridPane(); // loome ostukorvile lõuendi
         BorderPane errorBorder = new BorderPane(); // loome error stseenile lõuendi
         GridPane valiMakseMeetod = new GridPane(); //Maksemeetodi valiku lõuend
 
@@ -100,13 +100,13 @@ public class Main extends Application {
         Scene stseen2 = new Scene(grid1, 400, 275);        // loome teise stseeni
         Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ; // Loome stseeni autode ostumenüüle
         Scene soovOstastseen = new Scene(soovidOsta,400,275); //Loome stseeni, mis kontrollib üle, kas kasutaja tahab osta seda autot    // PEAME TEGEMA KÕIK AKNAD ENAM VAÄHEM SAMA SUUURSEKS,
-        Scene soovOstastseen1 = new Scene(soovidOsta1,400,275); // sama, mis eelmine, kuid see on hoolduses
+        Scene soovOstastseen1 = new Scene(soovidOstaHooldus,400,275); // sama, mis eelmine, kuid see on hoolduses
         Scene hooldusestseen1 = new Scene(hooldus1, 400, 275); // loome hooldusele stseeni
         Scene kerestseen = new Scene(kerehooldusGrid,400,275); // loome kerehoolduse stseeni
         Scene mootorstseen = new Scene(mootorihooldusGrid,400,275); // loome mootorihoolduse stseeni
         Scene salongistseen = new Scene(salongihoolduseGrid,400,275); // loome salongihoolduse stseeni
         Scene errorStseen = new Scene(errorBorder,400,200); // loome errori stseenile stseeni
-        Scene ostuKorviStseen = new Scene(ostuKorvgrid,500,500); // loome ostukorvi stseeni
+        Scene ostuKorviStseen = new Scene(ostuKorvGrid,500,500); // loome ostukorvi stseeni
         Scene MakseMeetodStseen = new Scene(valiMakseMeetod,500,300); // loome maksemeetodi stseeni
 
 
@@ -165,7 +165,7 @@ public class Main extends Application {
         // ESIMESE STSEENI LÕPP!
 
 
-// _______________________________________________________________________________________________________________________________________________
+        // _______________________________________________________________________________________________________________________________________________
 
         //ERROR STSEEN
         // Seda stseeni on vaja juhul, kui kasutaja nimi või perenimi on valesti sisestatud.
@@ -190,7 +190,7 @@ public class Main extends Application {
 
 
 
-//_______________________________________________________________________________________________________________________________________________
+        //_______________________________________________________________________________________________________________________________________________
 
         // TEISE STSEENI ALGUS
 
@@ -242,26 +242,32 @@ public class Main extends Application {
         back.setOnMouseClicked(e -> window.setScene(stseen1));                     // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
 
         ostukorv.setOnMouseClicked(e -> {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                    LocalDateTime now = LocalDateTime.now();
-                    int  n = rand.nextInt(5000) + 1000;
-                    ostuKorviElemendid.getItems().add("Arve №" + n);
-                    ostuKorviElemendid.getItems().add("Arve koostati: " + dtf.format(now));
-                    ostuKorviElemendid.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());          // SEE ASI ILUSAKS
-                    ostuKorviElemendid.getItems().add(" ");
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            int  n = rand.nextInt(5000) + 1000;
+
+            ostuKorviElemendid.getItems().add("Arve №" + n);
+            ostuKorviElemendid.getItems().add("Arve koostati: " + dtf.format(now));
+            ostuKorviElemendid.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());          // SEE ASI ILUSAKS
+            ostuKorviElemendid.getItems().add(" ");
 
             for (int i = 0; i < ostuKorv.size() ; i++) {
-            ostuKorviElemendid.getItems().add(ostuKorv.get(i));
-            tükid = ostuKorv.get(i).split(" ");
-            hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
-            summa.add(hind);}
-                    for (int i = 0; i < summa.size(); i++) {
+                ostuKorviElemendid.getItems().add(ostuKorv.get(i));
+                tükid = ostuKorv.get(i).split(" ");
+                hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
+                summa.add(hind);
+            }
+
+            for (int i = 0; i < summa.size(); i++) {
                         intMuutuja += summa.get(i);
-                    }
+            }
+
             ostuKorviElemendid.getItems().add(" ");
             ostuKorviElemendid.getItems().add("Kokku: " + intMuutuja +"€");
-             window.setScene(ostuKorviStseen);}
-             );
+            window.setScene(ostuKorviStseen);
+
+        });
 
         ost.setOnMouseClicked(e -> {
             try {
@@ -395,89 +401,9 @@ public class Main extends Application {
         soovidOsta.add(b_jah,3,2,1,1);
         soovidOsta.add(b_ei,0,2,1,1);
 
- // _______________________________________________________________________________________________________________________________________________
-
-        // OSTUKORVI STSEEN ALGAB
-
-        ostuKorvgrid.setAlignment(Pos.CENTER);
-        ostuKorvgrid.setHgap(10);
-        ostuKorvgrid.setVgap(10);
-        ostuKorvgrid.setPadding(new Insets(25, 25, 25, 25));
-
-        Button maksa = new Button("Maksa ära");
-        Button tagasi = new Button("Tagasi");
-        Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
-
-        maksa.setOnMouseClicked(e-> {
-            if (ostuKorviElemendid.getItems().size() < 7) {
-                valeNimi.setText("Makset ei saa sooritada, kuna sinu ostukorv on tühi!");
-                tagasi1.setOnMouseClicked(event -> window.setScene(ostuKorviStseen));
-                window.setScene(errorStseen);
-            } else {
-                window.setScene(MakseMeetodStseen);
-            }
-        });
-        tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear(); intMuutuja = 0; summa.clear();});
 
 
-        HBox hbox = new HBox(ostuKorviElemendid);
-        ostuKorvgrid.add(siinolevad,0,0,1,3);
-        ostuKorvgrid.add(tühi,0,1,1,1);
-        ostuKorvgrid.add(maksa,4,2,1,1);
-        ostuKorvgrid.add(hbox,0,2,2,2);
-        ostuKorvgrid.add(tagasi,4,4,1,1);
-
-
-        // OSTUKORVI STSEEEN LÕPPEB
-// _______________________________________________________________________________________________________________________________________________
-
-        // MAKSA ÄRA STSEEN!!!
-        valiMakseMeetod.setAlignment(Pos.CENTER);
-        valiMakseMeetod.setHgap(10);
-        valiMakseMeetod.setVgap(10);
-        valiMakseMeetod.setPadding(new Insets(25, 25, 25, 25));
-
-        Text valiMm = new Text("Vali maksemeetod");
-        GridPane.setHalignment(valiMm,HPos.CENTER);
-
-        Image swed = new Image(getClass().getResourceAsStream("swed.png"));
-        Button swedBank = new Button("", new ImageView(swed));
-
-        Image seb = new Image(getClass().getResourceAsStream("seb.png"));
-        Button sebBank = new Button("", new ImageView(seb));
-
-        Image bit = new Image(getClass().getResourceAsStream("bit.png"));
-        Button bitCoin = new Button("", new ImageView(bit));
-
-        Text hoiatus = new Text("Kuna me ise ei müü mitte ühtegi asja ning raha selle eest nõuda ei saa, \n siis nupule vajutades Te väljute programmist. \n Sellisel viisil kujutame ette, et ostud on makstud ja soovime Teile ilusat päevajätku! ");
-        GridPane.setHalignment(hoiatus,HPos.CENTER);
-        hoiatus.setTextAlignment(TextAlignment.CENTER);
-        Text tühiala = new Text(" ");
-
-        swedBank.setOnMouseClicked(e -> System.exit(1));
-        swedBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
-        swedBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
-        sebBank.setOnMouseClicked(e -> System.exit(1));
-        sebBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
-        sebBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
-        bitCoin.setOnMouseClicked(e -> System.exit(1));
-        bitCoin.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
-        bitCoin.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
-
-
-        valiMakseMeetod.add(valiMm,1,0,1,1);
-        valiMakseMeetod.add(swedBank,0,1,1,1);
-        valiMakseMeetod.add(sebBank,1,1,1,1);
-        valiMakseMeetod.add(bitCoin,2,1,1,1);
-
-
-
-
-
-
-        //maksa ära STSEEN LÕPPEB
-
-// _______________________________________________________________________________________________________________________________________________
+        // _______________________________________________________________________________________________________________________________________________
         // HOOLDUSESTSEENI ALGUS
 
         hooldus1.setAlignment(Pos.CENTER);
@@ -731,10 +657,10 @@ public class Main extends Application {
         //_______________________________________________________________________________________________________________
         // STSEEN, MIS KÜSIB, KAS SOOVID SEDA  TEENUST KASUTADA - PEAB JÄÄMA KOIKIFE HOOLDUS HARUDE LÕPPU !!!
 
-        soovidOsta1.setAlignment(Pos.CENTER);
-        soovidOsta1.setHgap(10);
-        soovidOsta1.setVgap(10);
-        soovidOsta1.setPadding(new Insets(25, 25, 25, 25));
+        soovidOstaHooldus.setAlignment(Pos.CENTER);
+        soovidOstaHooldus.setHgap(10);
+        soovidOstaHooldus.setVgap(10);
+        soovidOstaHooldus.setPadding(new Insets(25, 25, 25, 25));
 
 
 
@@ -745,14 +671,89 @@ public class Main extends Application {
         hooldusNupp_ei.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
 
-        soovidOsta1.add(kasHooldus,0,0,3,1);
-        soovidOsta1.add(valitudHooldus,0,1,3,1);
-        soovidOsta1.add(hooldusNupp_jah,3,2,1,1);
-        soovidOsta1.add(hooldusNupp_ei,0,2,1,1);
+        soovidOstaHooldus.add(kasHooldus,0,0,3,1);
+        soovidOstaHooldus.add(valitudHooldus,0,1,3,1);
+        soovidOstaHooldus.add(hooldusNupp_jah,3,2,1,1);
+        soovidOstaHooldus.add(hooldusNupp_ei,0,2,1,1);
 
 
         //__________________________________________________________________________________________________________________
 
+        // OSTUKORVI STSEEN ALGAB
+
+        ostuKorvGrid.setAlignment(Pos.CENTER);
+        ostuKorvGrid.setHgap(10);
+        ostuKorvGrid.setVgap(10);
+        ostuKorvGrid.setPadding(new Insets(25, 25, 25, 25));
+
+        Button maksa = new Button("Maksa ära");
+        Button tagasi = new Button("Tagasi");
+        Text siinolevad = new Text("Teie ostukorvis olevad asjad: ");
+
+        maksa.setOnMouseClicked(e-> {
+            if (ostuKorviElemendid.getItems().size() < 7) {
+                valeNimi.setText("Makset ei saa sooritada, kuna sinu ostukorv on tühi!");
+                tagasi1.setOnMouseClicked(event -> window.setScene(ostuKorviStseen));
+                window.setScene(errorStseen);
+            } else {
+                window.setScene(MakseMeetodStseen);
+            }
+        });
+        tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear(); intMuutuja = 0; summa.clear();});
+
+
+        HBox hbox = new HBox(ostuKorviElemendid);
+        ostuKorvGrid.add(siinolevad,0,0,1,3);
+        ostuKorvGrid.add(tühi,0,1,1,1);
+        ostuKorvGrid.add(maksa,4,2,1,1);
+        ostuKorvGrid.add(hbox,0,2,2,2);
+        ostuKorvGrid.add(tagasi,4,4,1,1);
+
+
+        // OSTUKORVI STSEEEN LÕPPEB
+// _______________________________________________________________________________________________________________________________________________
+
+        // MAKSA ÄRA STSEEN!!!
+        valiMakseMeetod.setAlignment(Pos.CENTER);
+        valiMakseMeetod.setHgap(10);
+        valiMakseMeetod.setVgap(10);
+        valiMakseMeetod.setPadding(new Insets(25, 25, 25, 25));
+
+        Text valiMm = new Text("Vali maksemeetod");
+        GridPane.setHalignment(valiMm,HPos.CENTER);
+
+        Image swed = new Image(getClass().getResourceAsStream("swed.png"));
+        Button swedBank = new Button("", new ImageView(swed));
+
+        Image seb = new Image(getClass().getResourceAsStream("seb.png"));
+        Button sebBank = new Button("", new ImageView(seb));
+
+        Image bit = new Image(getClass().getResourceAsStream("bit.png"));
+        Button bitCoin = new Button("", new ImageView(bit));
+
+        Text hoiatus = new Text("Kuna me ise ei müü mitte ühtegi asja ning raha selle eest nõuda ei saa, \n siis nupule vajutades Te väljute programmist. \n Sellisel viisil kujutame ette, et ostud on makstud ja soovime Teile ilusat päevajätku! ");
+        GridPane.setHalignment(hoiatus,HPos.CENTER);
+        hoiatus.setTextAlignment(TextAlignment.CENTER);
+        Text tühiala = new Text(" ");
+
+        swedBank.setOnMouseClicked(e -> System.exit(1));
+        swedBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
+        swedBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+        sebBank.setOnMouseClicked(e -> System.exit(1));
+        sebBank.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
+        sebBank.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+        bitCoin.setOnMouseClicked(e -> System.exit(1));
+        bitCoin.setOnMouseEntered(e-> valiMakseMeetod.add(hoiatus,0,2,3,3));
+        bitCoin.setOnMouseExited(e-> valiMakseMeetod.getChildren().remove(hoiatus));
+
+
+        valiMakseMeetod.add(valiMm,1,0,1,1);
+        valiMakseMeetod.add(swedBank,0,1,1,1);
+        valiMakseMeetod.add(sebBank,1,1,1,1);
+        valiMakseMeetod.add(bitCoin,2,1,1,1);
+
+        //maksa ära STSEEN LÕPPEB
+        //______________________________________________________________________________________________________________________
 
         window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen

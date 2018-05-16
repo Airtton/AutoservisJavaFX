@@ -417,7 +417,7 @@ public class Main extends Application {
                 window.setScene(MakseMeetodStseen);
             }
         });
-        tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear();});
+        tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear(); intMuutuja = 0; summa.clear();});
 
 
         HBox hbox = new HBox(ostuKorviElemendid);

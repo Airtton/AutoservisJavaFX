@@ -792,7 +792,7 @@ public class Main extends Application {
         Image bit = new Image(getClass().getResourceAsStream("bit.png"));
         Button bitCoin = new Button("", new ImageView(bit));
 
-        // Loome
+        // Loome hoatuse teksti
         Text hoiatus = new Text("Kuna me ise ei müü mitte ühtegi asja ning raha selle eest nõuda ei saa, \n siis nupule vajutades Te väljute programmist. \n Sellisel viisil kujutame ette, et ostud on makstud ja soovime Teile ilusat päevajätku! ");
         GridPane.setHalignment(hoiatus,HPos.CENTER);
         hoiatus.setTextAlignment(TextAlignment.CENTER);
@@ -801,16 +801,26 @@ public class Main extends Application {
         Text kolmtühja = new Text("   \n  \n   ");
 
 
+        // Nupule vajutades lõpetab programm töö
         swedBank.setOnMouseClicked(e -> System.exit(1));
+        // Hiirega (kursoriga) antud nupule peale minnes ilmub hoiatus, mille eelnevalt lõime
         swedBank.setOnMouseEntered(e-> {valiMakseMeetod.getChildren().remove(kolmtühja); valiMakseMeetod.add(hoiatus,0,2,3,3);});
+        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus
         swedBank.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
 
+
+        // Nupule vajutades lõpetab programm töö
         sebBank.setOnMouseClicked(e -> System.exit(1));
+        // Hiirega (kursoriga) antud nupule peale minnes ilmub hoiatus, mille eelnevalt lõime
         sebBank.setOnMouseEntered(e-> {valiMakseMeetod.getChildren().remove(kolmtühja);valiMakseMeetod.add(hoiatus,0,2,3,3);});
+        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus
         sebBank.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
 
+        // Nupule vajutades lõpetab programm töö
         bitCoin.setOnMouseClicked(e -> System.exit(1));
+        // Hiirega (kursoriga) antud nupule peale minnes ilmub hoiatus, mille eelnevalt lõime
         bitCoin.setOnMouseEntered(e->{valiMakseMeetod.getChildren().remove(kolmtühja);valiMakseMeetod.add(hoiatus,0,2,3,3);});
+        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus
         bitCoin.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
 
         // Lisame GridPanele elemendid

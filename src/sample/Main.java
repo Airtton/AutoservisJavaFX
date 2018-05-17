@@ -851,12 +851,11 @@ public class Main extends Application {
 
 
                 System.out.println("Seansside info on salvestatud!");         //Ei joudnud
-                }
+            }
             }
         }*/
+
         //______________________________________________________________________________________________________________________
-
-
 
         window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen

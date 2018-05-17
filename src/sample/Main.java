@@ -1,5 +1,6 @@
 package sample;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +11,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -17,6 +20,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import jdk.jshell.spi.ExecutionControl;
+
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,6 +48,8 @@ public class Main extends Application {
 
     ArrayList<String> ostuKorv = new ArrayList<>(); // Ostukorvi list, seal on sees kõik kasutaja valitud ostud/teenused.
     Random rand = new Random(); // Random, genereerib meile pärast arve numbri :)
+
+
 
     private void misAuto(String auto){ // Teeb stringi Text formaadiks ja võtab kohe ka sealt getText.
         valitudAuto.setText(auto);
@@ -74,6 +81,7 @@ public class Main extends Application {
         }
         return false;
     }
+
 
 
 
@@ -109,6 +117,9 @@ public class Main extends Application {
         Scene errorStseen = new Scene(errorBorder,400,200); // loome errori stseenile stseeni
         Scene ostuKorviStseen = new Scene(ostuKorvGrid,500,500); // loome ostukorvi stseeni
         Scene MakseMeetodStseen = new Scene(valiMakseMeetod,500,300); // loome maksemeetodi stseeni
+
+
+
 
 
         // _______________________________________________________________________________________________________________________________________
@@ -182,7 +193,17 @@ public class Main extends Application {
         Button tagasi1 = new Button("Tagasi"); // tagasi nupp, selleks, et minna tagasi esimesse stseeeni
         tagasi1.setPadding(new Insets(10, 10, 10, 10)); ///  kastike ümber tagasi nupu
 
+
         tagasi1.setOnMouseClicked(e -> window.setScene(stseen1)); // kui klickida tagasi nupule, siis läheb tagasi esimesse stseeni
+        errorBorder.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                        if(ke.getCode().equals(KeyCode.ESCAPE)){
+                            window.setScene(stseen1);
+                    }
+            }
+        });
+
+
 
         // lisame meie lõuendile elemendid
         errorBorder.setCenter(tagasi1);
@@ -283,6 +304,14 @@ public class Main extends Application {
             }
             window.setScene(ostustseen1);
         });
+        grid1.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(stseen1);
+                }
+            }
+        });
+
         hooldus.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
         // TEISE STSEENI LÕPP!
@@ -358,15 +387,16 @@ public class Main extends Application {
         volvo6.setOnMouseExited(e -> {volvo6.setGraphic(new ImageView(imageV60cc));volvo6.setText(mark.get(5));});
         volvo6.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(5) + "  Hind: " + hind.get(5));window.setScene(soovOstastseen);});
 
-
-
-
-
-
-
         Button tagasi2 = new Button("Tagasi");
         GridPane.setHalignment(tagasi2, HPos.CENTER);
         tagasi2.setOnMouseClicked(e -> window.setScene(stseen2));
+        ostuMenüü.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(stseen2);
+                }
+            }
+        });
 
         ostuMenüü.add(ostTutvustus, 1,0,1, 1);
         ostuMenüü.add(volvo1,0,1,1,1);
@@ -395,6 +425,14 @@ public class Main extends Application {
 
         b_jah.setOnMousePressed(e -> {ostuKorv.add(millineAuto); window.setScene(stseen2);} );
         b_ei.setOnMouseClicked(e -> window.setScene(ostustseen1));
+
+        soovidOsta.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(ostustseen1);
+                }
+            }
+        });
 
 
         soovidOsta.add(kasAuto,0,0,3,1);
@@ -439,9 +477,6 @@ public class Main extends Application {
         hooldus1.add(mootorihooldus, 0, 3,2,1);
         hooldus1.add(salongihooldus,0,4,2,1);
         hooldus1.add(tühi1,0,5,2,1);
-
-
-
         hooldus1.add(back1, 0, 6,2,2);
 
         // LOGO
@@ -469,6 +504,13 @@ public class Main extends Application {
         mootorihooldus.setOnMouseClicked(e-> window.setScene(mootorstseen));
         salongihooldus.setOnMouseClicked(e-> window.setScene(salongistseen));
         back1.setOnMouseClicked(e -> window.setScene(stseen2));                   // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
+        hooldus1.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(stseen2);
+                }
+            }
+        });
 
 
         // HOOLDUSE ÜLDSTSEENI LÕPP
@@ -510,6 +552,15 @@ public class Main extends Application {
         rehvid.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(2) + " Hind: "+ teenusKereHind.get(2));window.setScene(soovOstastseen1); });
 
         Button back2 = new Button("tagasi");
+        back2.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+
+        kerehooldusGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(hooldusestseen1);
+                }
+            }
+        });
 
 
 
@@ -524,13 +575,12 @@ public class Main extends Application {
         kerehooldusGrid.add(vahatamine, 0, 3,2,1);
         kerehooldusGrid.add(rehvid,0,4,2,1);
         kerehooldusGrid.add(tühi2,0,5,2,1);
-
         kerehooldusGrid.add(back2, 0, 6,2,2);
 
 
 
 
-        back2.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+
 
 
 
@@ -580,6 +630,15 @@ public class Main extends Application {
         Button back3 = new Button("tagasi");
         back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
+        mootorihooldusGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(hooldusestseen1);
+                }
+            }
+        });
+
+
         GridPane.setHalignment(õlivahetus, HPos.CENTER);
         GridPane.setHalignment(kütusefilter, HPos.CENTER);
         GridPane.setHalignment(süüteküünal, HPos.CENTER);
@@ -595,7 +654,7 @@ public class Main extends Application {
         mootorihooldusGrid.add(tühi3,0,6,2,1);
         mootorihooldusGrid.add(back3, 0, 7,2,2);
 
-        back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+
 
 
 
@@ -639,6 +698,14 @@ public class Main extends Application {
 
         Button back4 = new Button("tagasi");
         back4.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+        salongihoolduseGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(hooldusestseen1);
+                }
+            }
+        });
+
 
         GridPane.setHalignment(kuivPuhastus, HPos.CENTER);
         GridPane.setHalignment(sügavPuhastus, HPos.CENTER);
@@ -670,6 +737,13 @@ public class Main extends Application {
 
         hooldusNupp_jah.setOnMousePressed(e -> {ostuKorv.add(millineHooldus); window.setScene(stseen2);} );
         hooldusNupp_ei.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+        soovidOstaHooldus.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(hooldusestseen1);
+                }
+            }
+        });
 
 
         soovidOstaHooldus.add(kasHooldus,0,0,3,1);
@@ -701,6 +775,15 @@ public class Main extends Application {
             }
         });
         tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear(); intMuutuja = 0; summa.clear();});
+        ostuKorvGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent ke) {
+                if(ke.getCode().equals(KeyCode.ESCAPE)){
+                    window.setScene(stseen2);
+                    ostuKorviElemendid.getItems().clear();
+                    intMuutuja = 0; summa.clear();
+                }
+            }
+        });
 
 
         HBox hbox = new HBox(ostuKorviElemendid);

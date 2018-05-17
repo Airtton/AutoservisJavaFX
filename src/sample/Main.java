@@ -14,14 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import jdk.jshell.spi.ExecutionControl;
-
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -80,6 +77,13 @@ public class Main extends Application {
         return false;
     }
 
+    public void gridSet(GridPane grid){ // Grid Pane seade, see on igal gridpanel!
+        grid.setAlignment(Pos.CENTER);// Määrame stseenile asukoha (stseen asub ekraani keskel)
+        grid.setHgap(10); // Määrame horisontaalsed vahemikud ridade vahel
+        grid.setVgap(10);// loome vahed columnite vahel.
+        grid.setPadding(new Insets(25, 25, 25, 25));// loome stseenile nö kasti ümber
+    }
+
     private ListView<String> ostuKorviElemendid = new ListView<>(); // See on meie ostunimekirja Nö vaade nimekiri.(Kuvatakse ostumenüüs)
 
     @Override
@@ -117,10 +121,8 @@ public class Main extends Application {
 
         // ESIMESE STSEENI ALGUS
 
-        grid.setAlignment(Pos.CENTER); // Määrame esimesele stseenile asukoha (stseen asub ekraani keskel)
-        grid.setHgap(10); // Määrame horisontaalsed vahemikud ridade vahel
-        grid.setVgap(10); // loome vahed columnite vahel.
-        grid.setPadding(new Insets(25, 25, 25, 25)); // loome stseenile nö kasti ümber
+        gridSet(grid);
+
 
         Text scenetitle = new Text("Teretulemast volvo e-teenindusse!"); // esimese steeni tutvustus
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20)); // tutvustuse teksti vormindus
@@ -207,11 +209,8 @@ public class Main extends Application {
 
         // TEISE STSEENI ALGUS
 
-        //Gridpane üldsätted. Esimeses stseenis on täpsemalt kirjeldatud, mida mingi rida tähendab. (Need on igalpool samad!)
-        grid1.setAlignment(Pos.CENTER);
-        grid1.setHgap(10);
-        grid1.setVgap(10);
-        grid1.setPadding(new Insets(25, 25, 25, 25));
+        //Gridpane üldsätted. meetodis on täpsemalt kirjeldatud, mida mingi rida tähendab. (Need on igalpool samad!)
+        gridSet(grid1);
 
 
         Label ostOrHooldus = new Label("Kas ost või hooldus?");//Tekst, mis ilmub ja küsib kas kasutaja soovib midagi osta või hooldada.
@@ -306,11 +305,9 @@ public class Main extends Application {
         //_______________________________________________________________________________________________________________________________________________
 
         // OSTUSTSEENI ALGUS
-         // GridPane üldsätted. esimeses stseenis on täpne kirjeldus.
-        ostuMenüü.setAlignment(Pos.CENTER);
-        ostuMenüü.setHgap(10);
-        ostuMenüü.setVgap(10);
-        ostuMenüü.setPadding(new Insets(25, 25, 25, 25));
+         // GridPane üldsätted. meetodis on täpne kirjeldus.
+        gridSet(ostuMenüü);
+
 
         Text ostTutvustus = new Text("Teie ees on müügilolevad autod: ");//Tekst, mis annab kasutajale teada, mis toimub.
         Text tere = new Text(" "); // Tühi rida, lihsalt, et oleks ilusam
@@ -439,10 +436,7 @@ public class Main extends Application {
         // _______________________________________________________________________________________________________________________________________________
         // HOOLDUSESTSEENI ALGUS
         //GridPane sätted
-        hooldus1.setAlignment(Pos.CENTER);
-        hooldus1.setHgap(10);
-        hooldus1.setVgap(10);
-        hooldus1.setPadding(new Insets(25, 25, 25, 25));
+        gridSet(hooldus1);
 
         // Tekst ja tema ilme
         Label labelCare = new Label("Valige palun hooldustüüp");
@@ -498,10 +492,8 @@ public class Main extends Application {
 
         //  HARUDE ALGUS - KEREHOOLDUS
         //Üldsätted gridpane jaoks
-        kerehooldusGrid.setAlignment(Pos.CENTER);
-        kerehooldusGrid.setHgap(10);
-        kerehooldusGrid.setVgap(10);
-        kerehooldusGrid.setPadding(new Insets(25, 25, 25, 25));
+        gridSet(kerehooldusGrid);
+
 
         //Loome 3 arraylisti. (Pmts sama süsteem nagu autode sisse lugemisel)
         ArrayList<String> kerehooldusInfo = Hooldus.kereTeenus();
@@ -561,24 +553,13 @@ public class Main extends Application {
         kerehooldusGrid.add(back2, 0, 6,2,2);
 
 
-
-
-
-
-
-
         // KEREHOOLDUSE LÕPP
 
         //______________________________________________________________________________________________________
 
         // MOOTORIHOOLDUSE ALGUS
 
-
-
-        mootorihooldusGrid.setAlignment(Pos.CENTER);
-        mootorihooldusGrid.setHgap(10);
-        mootorihooldusGrid.setVgap(10);
-        mootorihooldusGrid.setPadding(new Insets(25, 25, 25, 25));
+        gridSet(mootorihooldusGrid);
 
         ArrayList<String> mootorihooldusInfo = Hooldus.mootoriTeenus();
         ArrayList<String> teenuseMootoriNimetus = new ArrayList<String>();
@@ -645,11 +626,8 @@ public class Main extends Application {
         //_______________________________________________________________________________________________________________
 
         // SALONGIHOOLDUSE ALGUS
+        gridSet(salongihoolduseGrid);
 
-        salongihoolduseGrid.setAlignment(Pos.CENTER);
-        salongihoolduseGrid.setHgap(10);
-        salongihoolduseGrid.setVgap(10);
-        salongihoolduseGrid.setPadding(new Insets(25, 25, 25, 25));
 
         ArrayList<String> salongiHoolduseInfo = Hooldus.salogiTeenus();
         ArrayList<String> teenuseSalongNimetus = new ArrayList<String>();
@@ -708,10 +686,8 @@ public class Main extends Application {
         //_______________________________________________________________________________________________________________
         // STSEEN, MIS KÜSIB, KAS SOOVID SEDA  TEENUST KASUTADA - PEAB JÄÄMA KOIKIFE HOOLDUS HARUDE LÕPPU !!!
 
-        soovidOstaHooldus.setAlignment(Pos.CENTER);
-        soovidOstaHooldus.setHgap(10);
-        soovidOstaHooldus.setVgap(10);
-        soovidOstaHooldus.setPadding(new Insets(25, 25, 25, 25));
+
+        gridSet(soovidOstaHooldus);
 
 
 
@@ -738,11 +714,7 @@ public class Main extends Application {
         //__________________________________________________________________________________________________________________
 
         // OSTUKORVI STSEEN ALGAB
-
-        ostuKorvGrid.setAlignment(Pos.CENTER);
-        ostuKorvGrid.setHgap(10);
-        ostuKorvGrid.setVgap(10);
-        ostuKorvGrid.setPadding(new Insets(25, 25, 25, 25));
+        gridSet(ostuKorvGrid);
 
         Button maksa = new Button("Maksa ära");
         Button tagasi = new Button("Tagasi");
@@ -781,10 +753,8 @@ public class Main extends Application {
 // _______________________________________________________________________________________________________________________________________________
 
         // MAKSA ÄRA STSEEN!!!
-        valiMakseMeetod.setAlignment(Pos.CENTER);
-        valiMakseMeetod.setHgap(10);
-        valiMakseMeetod.setVgap(10);
-        valiMakseMeetod.setPadding(new Insets(25, 25, 25, 25));
+        gridSet(valiMakseMeetod);
+
 
         Text valiMm = new Text("Vali maksemeetod");
         GridPane.setHalignment(valiMm,HPos.CENTER);

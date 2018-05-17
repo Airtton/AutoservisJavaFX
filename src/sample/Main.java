@@ -40,11 +40,10 @@ public class Main extends Application {
     private Label valitudHooldus = new Label(); // kuvab eelnevalt valitud hoolduse ekraanile
     private String millineAuto; // String lisab valitud auto ostukorvi või teeb selle valitudautoks
     private String millineHooldus;   // String lisab valitud hoolduse ostukorvi või teeb selle valitudhoolduseks  //JAOTADA ARA HOOLDUSE MUUUTUJAD JA AUTODE MUUTUJA ERALDI KASTIKESTESSE !!!
-    private String nimekiri = ""; // PÄRST KIRJELDAB, HETKEL EI MÄLETA JA EI VIITSI UURIDA
     private String[] tükid; // Üks väga tähtis osa stringide tükeldamiseks
     private ArrayList<Integer> summa = new ArrayList<>(); // Lisab int summad listi ja pärast selle listi najal väljastatkse lõppsumma!
-    private int hind; // jooksev hind vms
-    private int intMuutuja; // mingisugune suvaline muutuja, mida oli lihtsalt vaja vahepeal kasutada.
+    private int hind; // Hind, mis lisatakse kõikide hindade listi.
+    private int intMuutuja; // Muututuja,mis summeerib summat.
 
     ArrayList<String> ostuKorv = new ArrayList<>(); // Ostukorvi list, seal on sees kõik kasutaja valitud ostud/teenused.
     Random rand = new Random(); // Random, genereerib meile pärast arve numbri :)
@@ -75,17 +74,13 @@ public class Main extends Application {
     public boolean mituTähteJärjest(String string){ // See meetod kontrollib, kas string sisaldab 3 või enam samasugust tähte
         Pattern p = Pattern.compile("((\\w)\\2+\\2)+.*");
         Matcher m = p.matcher(string);
-        while (m.find())
-        {
+        while (m.find()) {
             return true;
         }
         return false;
     }
 
-
-
-
-    private ListView<String> ostuKorviElemendid = new ListView<>(); // Ostunimekiri peaks see oleam
+    private ListView<String> ostuKorviElemendid = new ListView<>(); // See on meie ostunimekirja Nö vaade nimekiri.(Kuvatakse ostumenüüs)
 
     @Override
     public void start(Stage primaryStage) throws Exception { // yaay! programm saab alguse!
@@ -117,10 +112,6 @@ public class Main extends Application {
         Scene errorStseen = new Scene(errorBorder,400,200); // loome errori stseenile stseeni
         Scene ostuKorviStseen = new Scene(ostuKorvGrid,500,500); // loome ostukorvi stseeni
         Scene MakseMeetodStseen = new Scene(valiMakseMeetod,500,300); // loome maksemeetodi stseeni
-
-
-
-
 
         // _______________________________________________________________________________________________________________________________________
 
@@ -195,7 +186,7 @@ public class Main extends Application {
 
 
         tagasi1.setOnMouseClicked(e -> window.setScene(stseen1)); // kui klickida tagasi nupule, siis läheb tagasi esimesse stseeni
-        errorBorder.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        errorBorder.setOnKeyPressed(new EventHandler<KeyEvent>() { //Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                         if(ke.getCode().equals(KeyCode.ESCAPE)){
                             window.setScene(stseen1);
@@ -216,124 +207,122 @@ public class Main extends Application {
 
         // TEISE STSEENI ALGUS
 
+        //Gridpane üldsätted. Esimeses stseenis on täpsemalt kirjeldatud, mida mingi rida tähendab. (Need on igalpool samad!)
         grid1.setAlignment(Pos.CENTER);
         grid1.setHgap(10);
         grid1.setVgap(10);
         grid1.setPadding(new Insets(25, 25, 25, 25));
 
-        Label labelTitle = new Label("Kas ost või hooldus?");
-        labelTitle.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
-        Image logo = new Image(getClass().getResourceAsStream("logo275.png"));
+
+        Label ostOrHooldus = new Label("Kas ost või hooldus?");//Tekst, mis ilmub ja küsib kas kasutaja soovib midagi osta või hooldada.
+        ostOrHooldus.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20)); //Teeme meie teksti ilusamaks
+        Image logo = new Image(getClass().getResourceAsStream("logo275.png")); // Logo pilt
 
 
-        kliendiNimi.setFont(Font.font("Tahoma",FontWeight.BOLD,10));
-        GridPane.setHalignment(kliendiNimi,HPos.CENTER);
+        kliendiNimi.setFont(Font.font("Tahoma",FontWeight.BOLD,10)); //Kliendinimele anname välimiuse
+        GridPane.setHalignment(kliendiNimi,HPos.CENTER); // Lisame kliendinime lõuendile
 
-        Label tühi = new Label("");
-
-
+        Label tühi = new Label(""); //Seda tühja rida on vaja selleks, et alles jätta rida/veergu
 
 
-        Button ost = new Button("  Ost  ");
-        Button hooldus = new Button("Hooldus");
-        Button ostukorv = new Button("Ostukorv");
-        Button back = new Button("tagasi");
 
+
+        Button ost = new Button("  Ost  "); // NUpp ost
+        Button hooldus = new Button("Hooldus"); // nupp hooldus
+        Button ostukorv = new Button("Ostukorv"); // nupp ostukorv
+        Button back = new Button("tagasi"); // nupp tagasi
+
+        //Anname igale nupule positsiooni
         GridPane.setHalignment(ost, HPos.CENTER);
         GridPane.setHalignment(hooldus, HPos.CENTER);
         GridPane.setHalignment(back, HPos.CENTER);
         GridPane.setHalignment(ostukorv,HPos.CENTER);
 
-        grid1.add(labelTitle, 0, 0, 2, 1);          // Put on cell (0,0), span 2 column, 1 row.
-        grid1.add(kliendiNimi,0,1,2,1);
-        grid1.add(ost, 0, 2,2,1);               // Put on cell (0,1)
+        //lisame iga stseenielemendi lõuendile.
+        grid1.add(ostOrHooldus, 0, 0, 2, 1);          //Paneme  0 veerule ja 0 reale. Colspan tähendab, et see hõlmab 2 veergu
+        grid1.add(kliendiNimi,0,1,2,1);         //Paneme 0 veerule ja 1 reale. rowspan tähendab, et vaja hõlmata ainult 1 rida
+        grid1.add(ost, 0, 2,2,1);
         grid1.add(hooldus, 0, 3,2,1);
         grid1.add(ostukorv,0,4,2,1);
         grid1.add(tühi,0,5,2,1);
-
-
-
         grid1.add(back, 0, 6,2,2);
 
         // LOGO PAREMAS ülemises (VÄIKE)
         grid1.setBackground(new Background(new BackgroundImage(logo,BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                BackgroundSize.DEFAULT)));
+                BackgroundRepeat.NO_REPEAT, // Logo joonistatakse ainult üks kord. (Kui oleks repeat siis meie BG näeks "mummuline" välja
+                BackgroundPosition.DEFAULT, // Positsioon default. Ehk logo joonistamist alustatakse ülevalt vasakust nurgast.
+                BackgroundSize.DEFAULT))); // Size default.
 
-        back.setOnMouseClicked(e -> window.setScene(stseen1));                     // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
+        back.setOnMouseClicked(e -> window.setScene(stseen1));    // KUI KLIKKIDA SIIS LÄHEB TAGASI esimesse stseeni!!!
 
-        ostukorv.setOnMouseClicked(e -> {
+        ostukorv.setOnMouseClicked(e -> { // Kui klikkida ostukorvi nupule siis antakse väärtus listView-le
 
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
-            int  n = rand.nextInt(5000) + 1000;
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); // DateTime formaat
+            LocalDateTime now = LocalDateTime.now(); //Võtab praeguse aja
+            int  n = rand.nextInt(5000) + 1000; // Randomi abil genereerime arve numbri
 
-            ostuKorviElemendid.getItems().add("Arve №" + n);
-            ostuKorviElemendid.getItems().add("Arve koostati: " + dtf.format(now));
-            ostuKorviElemendid.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText());          // SEE ASI ILUSAKS
-            ostuKorviElemendid.getItems().add(" ");
+            ostuKorviElemendid.getItems().add("Arve №" + n); //ListView-le lisatakse esimeseks reaks arve number
+            ostuKorviElemendid.getItems().add("Arve koostati: " + dtf.format(now)); // Teisse ritta lisatakse arve koostamise aeg
+            ostuKorviElemendid.getItems().add("Klient: " + eesnimi.getText() + " " + perenimi.getText()); // Lisame meie arvele ka kliendi nime
+            ostuKorviElemendid.getItems().add(" "); // Teeme tühja rea, et näeks ilusam välja
 
-            for (int i = 0; i < ostuKorv.size() ; i++) {
-                ostuKorviElemendid.getItems().add(ostuKorv.get(i));
-                tükid = ostuKorv.get(i).split(" ");
-                hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1));
-                summa.add(hind);
+            for (int i = 0; i < ostuKorv.size() ; i++) { //For tsükkel. Võtab ostukorvist kõik elemendid ja lisab need listView-le
+                ostuKorviElemendid.getItems().add(ostuKorv.get(i)); //ostukorvi i element lisame selle listView-le
+                tükid = ostuKorv.get(i).split(" "); //Tükeldame meie ostukorv i elemendi
+                hind = Integer.parseInt(tükid[4].substring(0,tükid[4].length() - 1)); //Võtame meie viimase tüki ja eemaldame sealt € märgi
+                summa.add(hind); //Lisame hinna summade listi
             }
 
-            for (int i = 0; i < summa.size(); i++) {
+            for (int i = 0; i < summa.size(); i++) { // Selle tsükli abil arvutame kõikide ostude summa.
                         intMuutuja += summa.get(i);
             }
-
-            ostuKorviElemendid.getItems().add(" ");
-            ostuKorviElemendid.getItems().add("Kokku: " + intMuutuja +"€");
-            window.setScene(ostuKorviStseen);
-
+            ostuKorviElemendid.getItems().add(" "); // Lisame tühja rea ilu jaoks
+            ostuKorviElemendid.getItems().add("Kokku: " + intMuutuja +"€"); // Lisame summa
+            window.setScene(ostuKorviStseen); // Määrame stseeniks ostukorvi stseeni
         });
 
-        ost.setOnMouseClicked(e -> {
+        ost.setOnMouseClicked(e -> { // Kui vajutame ostu nupu peale, siis kontrollime, kas fail on olemas.
             try {
-                ArrayList<String> autod = Autod.autoNimed();
-
-
+                ArrayList<String> autod = Autod.autoNimed(); // Niisama lisatud, funktsionaalsust pole. Lihtsalt koha täitmiseks
             } catch (FileNotFoundException e1) {
 
-                System.out.println("Faili pole olemas"); // TEKITA UUS AKEN.
-                System.exit(1);
+                System.out.println("Faili pole olemas"); // TEKITA UUS AKEN. - Ausalt öeldes ei viitsinud uut akent lisada. :(
+                System.exit(1); // Programm pannakse kinni.
 
             }
-            window.setScene(ostustseen1);
+            window.setScene(ostustseen1); // Kõik korras, lähme autode ostustseeni!
         });
-        grid1.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        grid1.setOnKeyPressed(new EventHandler<KeyEvent>() { //Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
-                if(ke.getCode().equals(KeyCode.ESCAPE)){
-                    window.setScene(stseen1);
+                if(ke.getCode().equals(KeyCode.ESCAPE)){ // Kui key = escape
+                    window.setScene(stseen1); // lähme üle menüüsse
                 }
             }
         });
 
-        hooldus.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
+        hooldus.setOnMouseClicked(e -> window.setScene(hooldusestseen1)); // Kui vajutada hoolduse peale, siis lähme hoolduse stseeni.
 
         // TEISE STSEENI LÕPP!
         //_______________________________________________________________________________________________________________________________________________
 
         // OSTUSTSEENI ALGUS
-
+         // GridPane üldsätted. esimeses stseenis on täpne kirjeldus.
         ostuMenüü.setAlignment(Pos.CENTER);
         ostuMenüü.setHgap(10);
         ostuMenüü.setVgap(10);
         ostuMenüü.setPadding(new Insets(25, 25, 25, 25));
 
-        Text ostTutvustus = new Text("Teie ees on müügilolevad autod: ");
-        Text tere = new Text(" ");
+        Text ostTutvustus = new Text("Teie ees on müügilolevad autod: ");//Tekst, mis annab kasutajale teada, mis toimub.
+        Text tere = new Text(" "); // Tühi rida, lihsalt, et oleks ilusam
 
-        ArrayList<String> autod = Autod.autoNimed();
-        ArrayList<String> mark = new ArrayList<String>();
-        ArrayList<String> hind = new ArrayList<String>();
-        ArrayList<String> png = new ArrayList<String>();
-        ArrayList<String> pngFlip = new ArrayList<String>();
+        //Teeme palju arrayliste. Jah nagu kilplased, võis kasutada konstrukotrit. Aga see meetod töötab ja me ei hakkanud midagi muutma.
+        ArrayList<String> autod = Autod.autoNimed(); // Autode list. Sisaldab tervet rida, mis on failist sisseloetud
+        ArrayList<String> mark = new ArrayList<String>(); // Mudeli list 0 positsioon
+        ArrayList<String> hind = new ArrayList<String>();  // hinna list 1 positsioon
+        ArrayList<String> png = new ArrayList<String>(); // png fail 2 positsioon
+        ArrayList<String> pngFlip = new ArrayList<String>(); // png fail peegelpildis 3 positsioon
 
-        for (int i = 0; i < autod.size(); i++) {
+        for (int i = 0; i < autod.size(); i++) { // Tükeldame ära tsükli abil iga autode elemendi ja lisame eraldi listidesse.
             String[] tükid = autod.get(i).split(" ");
             mark.add(tükid[0]);
             hind.add(tükid[1]);
@@ -341,6 +330,7 @@ public class Main extends Application {
             pngFlip.add(tükid[3]);
         }
 
+        //SIIN LOOME VOLVO V40-le NUPU, LISAME TALLE 2 PILTI JA LISAME SÜNDMUSI
         Image imageV40 = new Image(getClass().getResourceAsStream(png.get(0)));
         Image imageV40flip = new Image(getClass().getResourceAsStream(pngFlip.get(0)));
         Button volvo1 = new Button(mark.get(0), new ImageView(imageV40));
@@ -348,7 +338,7 @@ public class Main extends Application {
         volvo1.setOnMouseExited(e -> {volvo1.setGraphic(new ImageView(imageV40));volvo1.setText(mark.get(0));});
         volvo1.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(0) + "  Hind: "+ hind.get(0));window.setScene(soovOstastseen); });
 
-
+        //SIIN LOOME VOLVO V60-le NUPU, LISAME TALLE 2 PILTI JA LISAME SÜNDMUSI
         Image imageV60 = new Image(getClass().getResourceAsStream(png.get(1)));
         Image imageV60flip = new Image(getClass().getResourceAsStream(pngFlip.get(1)));
         Button volvo2 = new Button(mark.get(1) + "  ", new ImageView(imageV60));
@@ -356,6 +346,7 @@ public class Main extends Application {
         volvo2.setOnMouseExited(e -> {volvo2.setGraphic(new ImageView(imageV60 ));volvo2.setText(mark.get(1)+ "  ");});
         volvo2.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(1) + "  Hind: " + hind.get(1));window.setScene(soovOstastseen);});
 
+        //SIIN LOOME VOLVO XC90-le NUPU, LISAME TALLE 2 PILTI JA LISAME SÜNDMUSI
         Image imageXC90= new Image(getClass().getResourceAsStream(png.get(2)));
         Image imageXC90flip = new Image(getClass().getResourceAsStream(pngFlip.get(2)));
         Button volvo3 = new Button(mark.get(2)+ " ", new ImageView(imageXC90));
@@ -363,7 +354,7 @@ public class Main extends Application {
         volvo3.setOnMouseExited(e -> {volvo3.setGraphic(new ImageView(imageXC90));volvo3.setText(mark.get(2)+ " ");});
         volvo3.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(2) + "  Hind: " + hind.get(2));window.setScene(soovOstastseen);});
 
-
+        //SIIN LOOME VOLVO S60-le NUPU, LISAME TALLE 2 PILTI JA LISAME SÜNDMUSI
         Image imageS60= new Image(getClass().getResourceAsStream(png.get(3)));
         Image imageS60flip = new Image(getClass().getResourceAsStream(pngFlip.get(3)));
         Button volvo4 = new Button(mark.get(3) + "  ", new ImageView(imageS60));
@@ -371,7 +362,7 @@ public class Main extends Application {
         volvo4.setOnMouseExited(e -> {volvo4.setGraphic(new ImageView(imageS60));volvo4.setText(mark.get(3)+ "  ");});
         volvo4.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(3) + "  Hind: " + hind.get(3));window.setScene(soovOstastseen);});
 
-
+        //SIIN LOOME VOLVO S60CC-le NUPU, LISAME TALLE 2 PILTI JA LISAME SÜNDMUSI
         Image imageS60cc= new Image(getClass().getResourceAsStream(png.get(4)));
         Image imageS60ccflip = new Image(getClass().getResourceAsStream(pngFlip.get(4)));
         Button volvo5 = new Button(mark.get(4), new ImageView(imageS60cc));
@@ -379,7 +370,7 @@ public class Main extends Application {
         volvo5.setOnMouseExited(e -> {volvo5.setGraphic(new ImageView(imageS60cc));volvo5.setText(mark.get(4));});
         volvo5.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(4) + "  Hind: " + hind.get(4));window.setScene(soovOstastseen);});
 
-
+        //SIIN LOOME VOLVO V60CC-le NUPU, LISAME TALLE 2 PILTI JA LISAME SÜNDMUSI
         Image imageV60cc = new Image(getClass().getResourceAsStream(png.get(5)));
         Image imageV60ccflip = new Image(getClass().getResourceAsStream(pngFlip.get(5)));
         Button volvo6 = new Button(mark.get(5), new ImageView(imageV60cc));
@@ -387,17 +378,19 @@ public class Main extends Application {
         volvo6.setOnMouseExited(e -> {volvo6.setGraphic(new ImageView(imageV60cc));volvo6.setText(mark.get(5));});
         volvo6.setOnMousePressed( e -> {misAuto("Mudel: " + mark.get(5) + "  Hind: " + hind.get(5));window.setScene(soovOstastseen);});
 
-        Button tagasi2 = new Button("Tagasi");
-        GridPane.setHalignment(tagasi2, HPos.CENTER);
-        tagasi2.setOnMouseClicked(e -> window.setScene(stseen2));
-        ostuMenüü.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+        Button tagasi2 = new Button("Tagasi"); // Nupp tagasi minekuks
+        GridPane.setHalignment(tagasi2, HPos.CENTER); // Et oleks ilusam anname talle positsiooni "Keskel"
+        tagasi2.setOnMouseClicked(e -> window.setScene(stseen2)); // Kui vajutada tagasi nuppu, siis läheb tagasi eelmisesse stseeni
+
+        ostuMenüü.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(stseen2);
                 }
             }
         });
-
+        //Siin lisame meie GridPane-le kõik elemendid vastavastsesse ruutudesse!! (row indeks 0 kuni 4)
         ostuMenüü.add(ostTutvustus, 1,0,1, 1);
         ostuMenüü.add(volvo1,0,1,1,1);
         ostuMenüü.add(volvo2,1,1,1,1);
@@ -413,6 +406,7 @@ public class Main extends Application {
         //___________________________________________________________________________________________________________________________________________
         // STSEEN, MIS KÜSIB, KAS SOOVID OSTA SEDA AUTOT!
 
+        // Meie gridpane üldsätted
         soovidOsta.setAlignment(Pos.CENTER);
         soovidOsta.setHgap(10);
         soovidOsta.setVgap(10);
@@ -420,13 +414,13 @@ public class Main extends Application {
 
 
 
-        Button b_jah = new Button("Jah");
-        Button b_ei = new Button ("Ei");
+        Button b_jah = new Button("Jah"); // Jah nupp
+        Button b_ei = new Button ("Ei"); // ei nupp
 
-        b_jah.setOnMousePressed(e -> {ostuKorv.add(millineAuto); window.setScene(stseen2);} );
-        b_ei.setOnMouseClicked(e -> window.setScene(ostustseen1));
+        b_jah.setOnMousePressed(e -> {ostuKorv.add(millineAuto); window.setScene(stseen2);} ); // Kui vajutada jah, siis lisatakse valitud auto ostukorvi ning minnakse menüüsse
+        b_ei.setOnMouseClicked(e -> window.setScene(ostustseen1)); // kui vajutada ei, siis läheb tagasi autode valiku juurde
 
-        soovidOsta.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        soovidOsta.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(ostustseen1);
@@ -434,7 +428,7 @@ public class Main extends Application {
             }
         });
 
-
+        // Lisame GridPanele elemendid
         soovidOsta.add(kasAuto,0,0,3,1);
         soovidOsta.add(valitudAuto,0,1,3,1);
         soovidOsta.add(b_jah,3,2,1,1);
@@ -444,42 +438,40 @@ public class Main extends Application {
 
         // _______________________________________________________________________________________________________________________________________________
         // HOOLDUSESTSEENI ALGUS
-
+        //GridPane sätted
         hooldus1.setAlignment(Pos.CENTER);
         hooldus1.setHgap(10);
         hooldus1.setVgap(10);
         hooldus1.setPadding(new Insets(25, 25, 25, 25));
 
+        // Tekst ja tema ilme
         Label labelCare = new Label("Valige palun hooldustüüp");
         labelCare.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,20));
+        //Logo pilt
         Image logo1 = new Image(getClass().getResourceAsStream("logo275.png"));
 
+        Label tühi1 = new Label(""); // Tühi rida
 
+        Button kerehooldus = new Button("Kerehooldus"); // Nupp kerehoolduse jaoks
+        Button mootorihooldus = new Button("Mootorihooldus"); // nupp mootorihoolduse jaoks
+        Button salongihooldus = new Button("Salongihooldus"); // nupp salongihoolduse jaoks
+        Button back1 = new Button("tagasi"); // tagasi nupp
 
-        Label tühi1 = new Label("");
-
-
-
-
-        Button kerehooldus = new Button("Kerehooldus");
-        Button mootorihooldus = new Button("Mootorihooldus");
-        Button salongihooldus = new Button("Salongihooldus");
-        Button back1 = new Button("tagasi");
-
+        //Anname nuppudele positsioonid
         GridPane.setHalignment(kerehooldus, HPos.CENTER);
         GridPane.setHalignment(mootorihooldus, HPos.CENTER);
         GridPane.setHalignment(salongihooldus, HPos.CENTER);
         GridPane.setHalignment(back1,HPos.CENTER);
 
+        //Lisame gridPanele loodud elemendid
         hooldus1.add(labelCare, 0, 0, 2, 1);
-
         hooldus1.add(kerehooldus, 0, 2,2,1);
         hooldus1.add(mootorihooldus, 0, 3,2,1);
         hooldus1.add(salongihooldus,0,4,2,1);
         hooldus1.add(tühi1,0,5,2,1);
         hooldus1.add(back1, 0, 6,2,2);
 
-        // LOGO
+        // LOGO. Kuskil üleval on täpsemini kirjeldatud.
         hooldus1.setBackground(new Background(new BackgroundImage(logo1,BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
@@ -487,24 +479,11 @@ public class Main extends Application {
 
 
 
-        kerehooldus.setOnMouseClicked(e -> {
-            try {
-                ArrayList<String> kere = Hooldus.kereTeenus();
-
-
-            } catch (FileNotFoundException e1) {
-
-                System.out.println("Faili pole olemas"); // TEKITA UUS AKEN.
-                System.exit(1);
-
-            }
-            window.setScene(kerestseen);
-        });
-
-        mootorihooldus.setOnMouseClicked(e-> window.setScene(mootorstseen));
-        salongihooldus.setOnMouseClicked(e-> window.setScene(salongistseen));
-        back1.setOnMouseClicked(e -> window.setScene(stseen2));                   // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
-        hooldus1.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        kerehooldus.setOnMouseClicked(e -> { window.setScene(kerestseen); });// Kui vajutada kerehoolduse peale, siis läheb sinna stseeni
+        mootorihooldus.setOnMouseClicked(e-> window.setScene(mootorstseen)); // kui vsjutada mootorihoolduse peale, siis läheb sinna stseeni
+        salongihooldus.setOnMouseClicked(e-> window.setScene(salongistseen)); // Muudab stseeni nuppu vajutades!
+        back1.setOnMouseClicked(e -> window.setScene(stseen2));  // KUI KLIKKIDA SIIS LÄHEB TAGASI teise stseeni
+        hooldus1.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(stseen2);
@@ -518,17 +497,18 @@ public class Main extends Application {
         //______________________________________________________________________________________________________
 
         //  HARUDE ALGUS - KEREHOOLDUS
-
+        //Üldsätted gridpane jaoks
         kerehooldusGrid.setAlignment(Pos.CENTER);
         kerehooldusGrid.setHgap(10);
         kerehooldusGrid.setVgap(10);
         kerehooldusGrid.setPadding(new Insets(25, 25, 25, 25));
 
+        //Loome 3 arraylisti. (Pmts sama süsteem nagu autode sisse lugemisel)
         ArrayList<String> kerehooldusInfo = Hooldus.kereTeenus();
         ArrayList<String> teenuseKereNimetus = new ArrayList<String>();
         ArrayList<String> teenusKereHind = new ArrayList<String>();
 
-        for (int i = 0; i < kerehooldusInfo.size(); i++) {
+        for (int i = 0; i < kerehooldusInfo.size(); i++) { // LOeme hooldusinifo read ja splitime need ning lisame vastavatesse listidesse
             String[] tükid = kerehooldusInfo.get(i).split(";");
             teenuseKereNimetus.add(tükid[0]);
             teenusKereHind.add(tükid[1]);
@@ -536,25 +516,28 @@ public class Main extends Application {
         }
 
 
-        Label labelkere = new Label("Valige teenus, mida soovite kasutada");
-        labelkere.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,12));
+        Label labelkere = new Label("Valige teenus, mida soovite kasutada"); // Tekst
+        labelkere.setFont(Font.font("Tahoma",FontWeight.EXTRA_BOLD,12)); // Teksti välimus
 
-        Label tühi2 = new Label("");
+        Label tühi2 = new Label(""); // Tühi rida
 
-
+        //Kriimustuse eemaldamise nupp ja eventid.
         Button kriimustus = new Button(teenuseKereNimetus.get(0) + " " + teenusKereHind.get(0));
         kriimustus.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseKereNimetus.get(0) + " Hind: "+ teenusKereHind.get(0));window.setScene(soovOstastseen1); });
 
+        //Vahatamise nupp ja sündmused
         Button vahatamine = new Button(teenuseKereNimetus.get(1) + " " + teenusKereHind.get(1));
         vahatamine.setOnMousePressed( e -> {misHooldus("Teenus:" + teenuseKereNimetus.get(1) + " Hind: "+ teenusKereHind.get(1));window.setScene(soovOstastseen1); });
 
+        //rehvivahetus ja sündmused
         Button rehvid = new Button(teenuseKereNimetus.get(2) + " " + teenusKereHind.get(2));
         rehvid.setOnMousePressed( e -> {misHooldus("Teenus: " + teenuseKereNimetus.get(2) + " Hind: "+ teenusKereHind.get(2));window.setScene(soovOstastseen1); });
 
+        //Tagasi nupp ja eelmine stseen
         Button back2 = new Button("tagasi");
         back2.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
-        kerehooldusGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        kerehooldusGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(hooldusestseen1);
@@ -563,13 +546,13 @@ public class Main extends Application {
         });
 
 
-
+        //anname nuppudele asetuse "Keskel"
         GridPane.setHalignment(kriimustus, HPos.CENTER);
         GridPane.setHalignment(vahatamine, HPos.CENTER);
         GridPane.setHalignment(rehvid, HPos.CENTER);
         GridPane.setHalignment(back2,HPos.CENTER);
 
-
+        // Lisame GridPanele elemendid
         kerehooldusGrid.add(labelkere, 0, 0, 2, 1);
         kerehooldusGrid.add(kriimustus, 0, 2,2,1);
         kerehooldusGrid.add(vahatamine, 0, 3,2,1);
@@ -630,7 +613,7 @@ public class Main extends Application {
         Button back3 = new Button("tagasi");
         back3.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
 
-        mootorihooldusGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        mootorihooldusGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(hooldusestseen1);
@@ -698,7 +681,7 @@ public class Main extends Application {
 
         Button back4 = new Button("tagasi");
         back4.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
-        salongihoolduseGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        salongihoolduseGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(hooldusestseen1);
@@ -737,7 +720,7 @@ public class Main extends Application {
 
         hooldusNupp_jah.setOnMousePressed(e -> {ostuKorv.add(millineHooldus); window.setScene(stseen2);} );
         hooldusNupp_ei.setOnMouseClicked(e -> window.setScene(hooldusestseen1));
-        soovidOstaHooldus.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        soovidOstaHooldus.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(hooldusestseen1);
@@ -775,7 +758,7 @@ public class Main extends Application {
             }
         });
         tagasi.setOnMouseClicked(e -> {window.setScene(stseen2);ostuKorviElemendid.getItems().clear(); intMuutuja = 0; summa.clear();});
-        ostuKorvGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        ostuKorvGrid.setOnKeyPressed(new EventHandler<KeyEvent>() {//Siin kontrollitakse, kas ESCAPE nupp on vajutatud, kui jah, vahetatakse stseeni
             public void handle(KeyEvent ke) {
                 if(ke.getCode().equals(KeyCode.ESCAPE)){
                     window.setScene(stseen2);

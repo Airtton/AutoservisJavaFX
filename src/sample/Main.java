@@ -805,7 +805,7 @@ public class Main extends Application {
         swedBank.setOnMouseClicked(e -> System.exit(1));
         // Hiirega (kursoriga) antud nupule peale minnes ilmub hoiatus, mille eelnevalt lõime
         swedBank.setOnMouseEntered(e-> {valiMakseMeetod.getChildren().remove(kolmtühja); valiMakseMeetod.add(hoiatus,0,2,3,3);});
-        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus
+        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus ja see asendatatakse tühjade ridadega
         swedBank.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
 
 
@@ -813,14 +813,14 @@ public class Main extends Application {
         sebBank.setOnMouseClicked(e -> System.exit(1));
         // Hiirega (kursoriga) antud nupule peale minnes ilmub hoiatus, mille eelnevalt lõime
         sebBank.setOnMouseEntered(e-> {valiMakseMeetod.getChildren().remove(kolmtühja);valiMakseMeetod.add(hoiatus,0,2,3,3);});
-        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus
+        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus ja see asendatatakse tühjade ridadega
         sebBank.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
 
         // Nupule vajutades lõpetab programm töö
         bitCoin.setOnMouseClicked(e -> System.exit(1));
         // Hiirega (kursoriga) antud nupule peale minnes ilmub hoiatus, mille eelnevalt lõime
         bitCoin.setOnMouseEntered(e->{valiMakseMeetod.getChildren().remove(kolmtühja);valiMakseMeetod.add(hoiatus,0,2,3,3);});
-        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus
+        // Hiirt (kursorit) nupu pealt ära korjate kaob hoiatus ja see asendatatakse tühjade ridadega
         bitCoin.setOnMouseExited(e-> { valiMakseMeetod.add(kolmtühja,0,2,3,3);valiMakseMeetod.getChildren().remove(hoiatus);});
 
         // Lisame GridPanele elemendid

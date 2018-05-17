@@ -106,7 +106,7 @@ public class Main extends Application {
 
         Scene stseen1 = new Scene(grid, 400, 275);        // Loome esimese stseeni
         Scene stseen2 = new Scene(grid1, 400, 275);        // loome teise stseeni
-        Scene ostustseen1 = new Scene(ostuMenüü, 650, 600) ; // Loome stseeni autode ostumenüüle
+        Scene ostustseen1 = new Scene(ostuMenüü, 700, 600) ; // Loome stseeni autode ostumenüüle
         Scene soovOstastseen = new Scene(soovidOsta,400,275); //Loome stseeni, mis kontrollib üle, kas kasutaja tahab osta seda autot    // PEAME TEGEMA KÕIK AKNAD ENAM VAÄHEM SAMA SUUURSEKS,
         Scene soovOstastseen1 = new Scene(soovidOstaHooldus,400,275); // sama, mis eelmine, kuid see on hoolduses
         Scene hooldusestseen1 = new Scene(hooldus1, 400, 275); // loome hooldusele stseeni
@@ -832,6 +832,31 @@ public class Main extends Application {
 
         //maksa ära STSEEN LÕPPEB
         //______________________________________________________________________________________________________________________
+
+        /*public static void salvestaInfo(List<Sissekanne> sissekanded) throws IOException {
+
+        try (DataOutputStream väljundVoog = new DataOutputStream(new FileOutputStream("päevik.dat"))) {
+
+            väljundVoog.writeInt(sissekanded.size());
+
+            for (Sissekanne sissekanne : sissekanded) {
+
+                /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+                String kuupaev = sissekanne.getKuupäev().format(formatter);                     //See viis peaks ka toimima :)
+                väljundVoog.writeUTF(kuupaev);*/
+
+                /*väljundVoog.writeUTF(sissekanne.getKuupäev().toString());
+                väljundVoog.writeInt(sissekanne.getKirjeldus().length());   // Pole vist hetkel oige, aga peab naitama sissekannete arvu
+                väljundVoog.writeUTF(sissekanne.getKirjeldus());
+
+
+                System.out.println("Seansside info on salvestatud!");         //Ei joudnud
+                }
+            }
+        }*/
+        //______________________________________________________________________________________________________________________
+
+
 
         window.setTitle("Volvo");  // lava tiitelribale pannakse tekst
         window.setScene(stseen1);  // lavale lisatakse stseen
